@@ -17,7 +17,7 @@
 <?php else: ?>
   <span class="no-comments"><?php print $comment_count; ?></span>
   <a href="#schrijf"><?php print t('Be the first to write a review'); ?></a>
-<?php endif; ?>
+<?php endif; ?><br />
 
 <?php if ($themes): ?>
 <?php print t('Theme'); ?>: <?php print $themes[0] ?><br/>
@@ -94,3 +94,19 @@
 <?php foreach ($pictures as $picture): ?>
   <img src="<?php print $picture; ?>?width=160&height=120&crop=auto" />
 <?php endforeach; ?>
+
+<?php if ($recommend_count > 0): ?>
+  <span class="recommends">
+    <?php if($recommend_count = 1): ?>
+      <?php print $recommend_count; ?>
+      <?php print t(' recommendation'); ?>
+    <?php else: ?>
+      <?php print $recommend_count; ?>
+      <?php print t(' recommendations'); ?>
+    <?php endif; ?>
+  </span>
+  <?php print $recommend_link; ?>
+<?php else: ?>
+  <span class="no-recommends"><?php print t('There are no recommendations for this production.'); ?></span>
+  <?php print $recommend_link; ?>
+<?php endif; ?>

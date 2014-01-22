@@ -173,7 +173,7 @@ function _culturefeed_agenda_preprocess_agenda(&$variables) {
     $variables['recommend_link'] = culturefeed_social_activity_link(CultureFeed_Activity::TYPE_RECOMMEND, $item);
     $variables['attend_link'] = culturefeed_social_activity_link(CultureFeed_Activity::TYPE_IK_GA, $item);
   }
-
+  
   // Themes from this item.
   $variables['themes'] = array();
   $themes = $cdb_item->getCategories()->getCategoriesByType(CultureFeed_Cdb_Data_Category::CATEGORY_TYPE_THEME);
