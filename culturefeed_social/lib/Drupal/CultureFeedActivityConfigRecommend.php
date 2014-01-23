@@ -31,7 +31,7 @@ class CultureFeedActivityConfigRecommend extends CultureFeedActivityConfigBase {
     $this->viewPrefix = t('has');
     $this->viewSuffix = t('recommended');
     $this->label = t('Recommend');
-    $this->loginRequiredMessage = t('You must be <a href="/autenticated">logged in</a> to recommend this item');
+    $this->loginRequiredMessage = t('You must be <a href="/culturefeed/oauth/connect">logged in</a> to recommend this item');
     $this->pointsOverviewSuffix = t('recommended');
   }
 

@@ -31,7 +31,7 @@ class CultureFeedActivityConfigLike extends CultureFeedActivityConfigBase {
     $this->viewPrefix = t('likes');
     $this->viewSuffix = t('this');
     $this->label = t('Like');
-    $this->loginRequiredMessage = t('You must be <a href="/autenticated">logged in</a> to like this item');
+    $this->loginRequiredMessage = t('You must be <a href="/culturefeed/oauth/connect">logged in</a> to like this item');
     $this->pointsOverviewSuffix = t('liked');
 
   }

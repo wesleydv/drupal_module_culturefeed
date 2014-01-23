@@ -30,7 +30,7 @@ class CultureFeedActivityConfigComment extends CultureFeedActivityConfigBase {
     $this->viewSuffix = '';
     $this->label = t('Comment');
     $this->action = t('Reply');
-    $this->loginRequiredMessage = t('You must be <a href="/autenticated">logged in</a> to post a comment');
+    $this->loginRequiredMessage = t('You must be <a href="/culturefeed/oauth/connect">logged in</a> to post a comment');
     $this->onBehalfOfMessage = t('Reply as');
     $this->pointsOverviewPrefix = t('Posted a comment on');
 

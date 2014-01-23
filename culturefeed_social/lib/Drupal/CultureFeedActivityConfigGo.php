@@ -20,7 +20,7 @@ class CultureFeedActivityConfigGo extends CultureFeedActivityConfigBase {
     $this->subjectUndo = t('Not attending');
     $this->viewPrefix = t('will be attending');
     $this->label = t('Will be attending');
-    $this->loginRequiredMessage = t('You must be <a href="/autenticated">logged in</a> to indicate that you will be  attending');
+    $this->loginRequiredMessage = t('You must be <a href="/culturefeed/oauth/connect">logged in</a> to indicate that you will be  attending');
     $this->pointsOverviewPrefix = t('Will be attending');
 
   }
