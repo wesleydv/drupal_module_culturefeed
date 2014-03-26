@@ -694,3 +694,19 @@ function _culturefeed_pages_preprocess_page_metatags(&$variables) {
   ), 'meta_description');
 
 }
+
+/**
+ * Preprocess a related items block.
+ */
+function culturefeed_pages_preprocess_culturefeed_pages_related_items(&$variables) {
+
+  global $language;
+
+  // Render the results.
+  $items = array();
+  foreach ($variables['results'] as $search_result) {
+    $items[] = culturefeed_search_detail_l($search_result->getType(), $search_result->getId(), $search_result->getTitle($language->language), $search_result->getImage(), $search_result->getAddress());
+  }
+  $variables['items'] = $items;
+
+}

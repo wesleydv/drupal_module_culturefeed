@@ -157,6 +157,19 @@ function culturefeed_pages_theme() {
       'template' => 'culturefeed-pages-page-agenda',
       'path' => $path,
     ),
+    'cultufeed_pages_related_items' => array(
+      'variables' => array(
+        'results' => array(),
+        'results_found' => 0,
+        'show_more' => FALSE,
+        'more_text' => '',
+        'more_url' => '',
+        'tooltip_text' => '',
+      ),
+      'path' => $path,
+      'file' => 'theme.inc',
+      'template' => 'culturefeed-pages-related-items',
+    ),
     'culturefeed_pages_follow_success_message' => array(
       'variables' => array(
         'page' => NULL,
@@ -478,6 +491,11 @@ function culturefeed_pages_block_info() {
   
   $blocks['members'] = array(
     'info' => t('Culturefeed pages: members'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  
+  $blocks['pages_nearby_pages'] = array(
+    'info' => t("Culturefeed pages: nearby pages"),
     'cache' => DRUPAL_NO_CACHE,
   );
 

@@ -329,8 +329,8 @@ function culturefeed_pages_block_page_nearby_pages($page) {
     return;
   }
   
-  $more_title = 'Alle organisatoren in de buurt &raquo;';
-  $block_title = 'Organisatoren in de buurt';
+  $more_title = t('All nearby organisers &raquo;');
+  $block_title = t('Nearby organisers');
   $context_id = '8.11.0.0.0';
 
   $parameters = array();
@@ -338,7 +338,7 @@ function culturefeed_pages_block_page_nearby_pages($page) {
   $parameters[] = new \CultuurNet\Search\Parameter\Rows(CULTUREFEED_PAGES_PAGE_NEARBY_PAGES_COUNT);
   $parameters[] = new \CultuurNet\Search\Parameter\FilterQuery('!cdbid' . ':' . $page->getId());
 
-  // If no address information, don't show nearby activities.
+  // If no address information, don't show nearby pages.
   $address = $page->getAddress();
   if (!$address) {
     return;
@@ -373,11 +373,11 @@ function culturefeed_pages_block_page_nearby_pages($page) {
       return;
     }
 
-    $show_more_link = $result->getTotalCount()  > CULTUURKUUR_PAGE_NEARBY_PAGES_COUNT;
+    $show_more_link = $result->getTotalCount()  > CULTUREFEED_PAGES_NEARBY_PAGES_COUNT;
 
   }
   catch (Exception $e) {
-    watchdog_exception('cultuurkuur', $e);
+    watchdog_exception('culturefeed_pages', $e);
     return;
   }
 
@@ -387,7 +387,7 @@ function culturefeed_pages_block_page_nearby_pages($page) {
   $block = array();
   $block['subject'] = $block_title;
   $block['content'] = array(
-    '#theme' => 'cultuurkuur_related_items',
+    '#theme' => 'culturefeed_pages_related_items',
     '#results' => $result->getItems(),
     '#show_more' => $show_more_link,
     '#more_text' => $more_title,
