@@ -321,6 +321,84 @@ function culturefeed_pages_block_page_agenda($page) {
 }
 
 /**
+ * Show nearby pages that are nearby this page.
+ */
+function culturefeed_pages_block_page_nearby_pages($page) {
+
+  if (empty($page)) {
+    return;
+  }
+  
+  $more_title = 'Alle organisatoren in de buurt &raquo;';
+  $block_title = 'Organisatoren in de buurt';
+  $context_id = '8.11.0.0.0';
+
+  $parameters = array();
+  $parameters[] = new \CultuurNet\Search\Parameter\Query('*:*');
+  $parameters[] = new \CultuurNet\Search\Parameter\Rows(CULTUREFEED_PAGES_PAGE_NEARBY_PAGES_COUNT);
+  $parameters[] = new \CultuurNet\Search\Parameter\FilterQuery('!cdbid' . ':' . $page->getId());
+
+  // If no address information, don't show nearby activities.
+  $address = $page->getAddress();
+  if (!$address) {
+    return;
+  }
+
+  // Add proximity search.
+  $coordinates = $address->getGeoInformation();
+  $zip = $address->getZip();
+  if ($coordinates) {
+    $distance = new \CultuurNet\Search\Parameter\Spatial\Distance(CULTUREFEED_PAGES_PAGE_NEARBY_PAGES_RANGE);
+    $point = new \CultuurNet\Search\Parameter\Spatial\Point($coordinates->getYCoordinate(), $coordinates->getXCoordinate());
+    $field = new \CultuurNet\Search\Parameter\Spatial\SpatialField('physical_gis');
+    $parameters[] = new \CultuurNet\Search\Parameter\Spatial\GeoFilterQuery($point, $distance, $field);
+
+    $more_query['coordinates'] = $coordinates->getYCoordinate() . ',' . $coordinates->getXCoordinate();
+  }
+
+  // Use zip as fallback for missing coordinates
+  elseif ($zip) {
+    $parameters[] = new \CultuurNet\Search\Parameter\FilterQuery('zipcode' . ':' . $zip);
+    $more_query['location'] = $zip;
+  }
+
+  // Execute search.
+  $show_more_link = FALSE;
+  try {
+
+    $searchService = culturefeed_get_search_service();
+    $result = $searchService->searchPages($parameters);
+    
+    if ($result->getTotalCount() == 0) {
+      return;
+    }
+
+    $show_more_link = $result->getTotalCount()  > CULTUURKUUR_PAGE_NEARBY_PAGES_COUNT;
+
+  }
+  catch (Exception $e) {
+    watchdog_exception('cultuurkuur', $e);
+    return;
+  }
+
+  $more_query['facet'] = array();
+  $more_query['facet']['category_actortype_id'][0] = $context_id;
+
+  $block = array();
+  $block['subject'] = $block_title;
+  $block['content'] = array(
+    '#theme' => 'cultuurkuur_related_items',
+    '#results' => $result->getItems(),
+    '#show_more' => $show_more_link,
+    '#more_text' => $more_title,
+    '#more_url' => url('agenda/pages', array('query' => $more_query)),
+  );
+
+  return $block;
+
+}
+
+/**
  * Returns a block with followers of a certain type of content.
  * @param CultureFeed_Cdb_Item_Page $page
  */
