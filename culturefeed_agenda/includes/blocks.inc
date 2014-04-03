@@ -78,7 +78,6 @@ function culturefeed_agenda_block_related_activities() {
     return;
   }
 
-  global $language;
   $search_results = $result->getItems();
   // Render the results.
   $items = array();
@@ -105,7 +104,7 @@ function culturefeed_agenda_block_related_activities() {
     '#theme' => 'culturefeed_agenda_related_activities',
     '#results' => $items,
   );
-  
+
   return $block;
 
 }
