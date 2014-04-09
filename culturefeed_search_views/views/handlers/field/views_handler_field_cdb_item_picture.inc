@@ -52,23 +52,35 @@ class views_handler_field_cdb_item_picture extends views_handler_field {
    */
   function render($extended_entity) {
 
-    $detail = $extended_entity->getEntity()->getDetails()->getDetailByLanguage(culturefeed_search_get_preferred_language());
-    if (!$detail) {
-      return;
-    }
+    if ($extended_entity->getType() == 'page') {
 
-    $main_picture = '';
-    $pictures = $detail->getMedia()->byMediaType(CultureFeed_Cdb_Data_File::MEDIA_TYPE_PHOTO);
-    foreach ($pictures as $picture) {
-      if ($picture->isMain()) {
-        $main_picture = $picture->getHLink();
+      // Page has a cover and a picture.
+      if ($this->real_field == 'picture') {
+        $main_picture = $extended_entity->getEntity()->getImage();
+      }
+      else {
+        $main_picture = $extended_entity->getEntity()->getCover();
       }
     }
+    else {
+      $detail = $extended_entity->getEntity()->getDetails()->getDetailByLanguage(culturefeed_search_get_preferred_language());
+      if (!$detail) {
+        return;
+      }
 
-    if (empty($main_picture) && $pictures && $pictures->count() > 0) {
-      $pictures->rewind();
-      $picture = $pictures->current();
-      $main_picture = $picture->getHLink();
+      $main_picture = '';
+      $pictures = $detail->getMedia()->byMediaType(CultureFeed_Cdb_Data_File::MEDIA_TYPE_PHOTO);
+      foreach ($pictures as $picture) {
+        if ($picture->isMain()) {
+          $main_picture = $picture->getHLink();
+        }
+      }
+
+      if (empty($main_picture) && $pictures && $pictures->count() > 0) {
+        $pictures->rewind();
+        $picture = $pictures->current();
+        $main_picture = $picture->getHLink();
+      }
     }
 
     if (!empty($main_picture)) {

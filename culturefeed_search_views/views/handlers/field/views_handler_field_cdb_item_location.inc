@@ -47,59 +47,75 @@ class views_handler_field_cdb_item_location extends views_handler_field {
     $cdb_item = $extended_entity->getEntity();
     $location = array();
 
-    if ($entity_type == 'event') {
-      $location = culturefeed_agenda_get_location_of_event($extended_entity->getEntity());
-    }
-    // Use the preprocess function, we don't want to program that logic 2 times.
-    elseif ($entity_type == 'production') {
+    switch ($entity_type) {
 
-      $relations = $cdb_item->getRelations();
-      $total_relations = count($relations);
-      // No event data.
-      if ($total_relations == 0) {
-        return;
-      }
-      // Multiple events. No fixed location.
-      elseif ($total_relations > 1) {
-        $location['title'] = 'meerdere locaties';
-      }
-      // 1 event. Use events location.
-      else {
+      // Event: show location.
+      case 'event':
+        $location = culturefeed_agenda_get_location_of_event($extended_entity->getEntity());
+        break;
 
-        try {
-          $event = culturefeed_agenda_event_load(current($relations)->getCdbid());
-          $location = culturefeed_agenda_get_location_of_event($event->getEntity());
+      // Production = show locations of related events.
+      case 'production':
 
+        $relations = $cdb_item->getRelations();
+        $total_relations = count($relations);
+        // No event data.
+        if ($total_relations == 0) {
+          return;
         }
-        catch (Exception $e) {
-          watchdog_exception('culturefeed_search_views', $e);
+        // Multiple events. No fixed location.
+        elseif ($total_relations > 1) {
+          $location['title'] = 'meerdere locaties';
+        }
+        // 1 event. Use events location.
+        else {
+
+          try {
+            $event = culturefeed_agenda_event_load(current($relations)->getCdbid());
+            $location = culturefeed_agenda_get_location_of_event($event->getEntity());
+          }
+          catch (Exception $e) {
+            watchdog_exception('culturefeed_search_views', $e);
+          }
         }
 
-      }
+        break;
 
-    }
-
-    // Actor = show the contact info address.
-    else {
+      // Actor = show the contact info address.
+      case 'actor':
 
       if ($cdb_item->getContactInfo()) {
 
-        $contact_info = $cdb_item->getContactInfo();
-        $addresses = $contact_info->getAddresses();
+          $contact_info = $cdb_item->getContactInfo();
+          $addresses = $contact_info->getAddresses();
 
-        if ($addresses) {
+          if ($addresses) {
 
-          $location['title'] = $addresses[0]->getLabel();
-          $physical_address = $addresses[0]->getPhysicalAddress();
-          if ($physical_address) {
-            $location['city'] = check_plain($physical_address->getCity());
-            $location['street'] = check_plain($physical_address->getStreet() . ' ' . $physical_address->getHouseNumber());
-            $location['zip'] = check_plain($physical_address->getZip());
+            $location['title'] = $addresses[0]->getLabel();
+            $physical_address = $addresses[0]->getPhysicalAddress();
+            if ($physical_address) {
+              $location['city'] = check_plain($physical_address->getCity());
+              $location['street'] = check_plain($physical_address->getStreet() . ' ' . $physical_address->getHouseNumber());
+              $location['zip'] = check_plain($physical_address->getZip());
+            }
+          }
+        }
+
+        break;
+
+      case 'page':
+        $address = $cdb_item->getAddress();
+        if (!empty($address)) {
+
+          if ($address->getStreet()) {
+            $location['street'] = check_plain($address->getStreet() . ' ' . $address->getHouseNumber());
           }
 
-        }
-      }
+          $location['city'] = check_plain($address->getCity());
+          $location['zip'] = check_plain($address->getZip());
 
+        }
+        break;
     }
 
     $show = $this->options['show'];
@@ -109,7 +125,7 @@ class views_handler_field_cdb_item_location extends views_handler_field {
       $output[] = $location['title'];
     }
 
-    if (!empty($show['address'])) {
+    if (!empty($show['address']) && !empty($location['street'])) {
       $output[] = $location['street'] . ' ' . $location['zip'] . ' ' . $location['city'];
     }
     elseif (!empty($show['city']) && !empty($location['city'])) {

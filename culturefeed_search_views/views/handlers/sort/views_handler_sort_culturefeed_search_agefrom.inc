@@ -20,7 +20,7 @@ class views_handler_sort_culturefeed_search_agefrom extends views_handler_sort_c
   function option_definition() {
 
     $options = parent::option_definition();
-    $options['direction'] = array('default' => 'asc');
+    $options['direction'] = array('default' => 'ASC');
 
     return $options;
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * @class
- * Handler class to handle filtering on normal query string.
+ * Handler class to handle filtering on date ranges.
  */
 class views_handler_filter_culturefeed_search_daterange extends views_handler_filter {
 
@@ -61,8 +61,8 @@ class views_handler_filter_culturefeed_search_daterange extends views_handler_fi
       form_set_error('start_date', t('The entered start date is not in the correct format'));
     }
 
-    if (!empty($form_state['values']['options']['start_date'])) {
-      $endDate = DateTime::createFromFormat('d/m/Y', $form_state['values']['options']['start_date']);
+    if (!empty($form_state['values']['options']['end_date'])) {
+      $endDate = DateTime::createFromFormat('d/m/Y', $form_state['values']['options']['end_date']);
       if (!$endDate) {
         form_set_error('start_date', t('The entered end date is not in the correct format'));
       }
@@ -90,6 +90,10 @@ class views_handler_filter_culturefeed_search_daterange extends views_handler_fi
   function query() {
 
     $startDate = DateTime::createFromFormat('d/m/Y', $this->start_date);
+    if (empty($startDate)) {
+      return;
+    }
+
     $endDate = $startDate;
     if (!empty($this->end_date)) {
       $endDate = DateTime::createFromFormat('d/m/Y', $this->end_date);

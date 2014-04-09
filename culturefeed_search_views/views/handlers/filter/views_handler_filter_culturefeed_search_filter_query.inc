@@ -5,14 +5,25 @@
  */
 class views_handler_filter_culturefeed_search_filter_query extends views_handler_filter {
 
-  protected $search_field; // Field to search on.
+  // Field to search on.
+  protected $search_field = '';
 
   /**
    * @see views_handler_filter::init()
    */
   function init(&$view, &$options) {
     parent::init($view, $options);
-    $this->search_field = $options['id'];
+    $this->search_field = $this->real_field;
+  }
+
+  /**
+   * Options form subform for exposed filter options.
+   *
+   * @see options_form()
+   */
+  function expose_form(&$form, &$form_state) {
+    parent::expose_form($form, $form_state);
+    unset($form['expose']['multiple']);
   }
 
   /**
@@ -42,7 +53,7 @@ class views_handler_filter_culturefeed_search_filter_query extends views_handler
    * Get the value to query.
    */
   function getValue() {
-    return $this->value;
+    return is_array($this->value) ? $this->value[0] : $this->value;
   }
 
 }

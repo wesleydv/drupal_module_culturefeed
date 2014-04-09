@@ -7,8 +7,8 @@ use \CultuurNet\Search\Parameter;
  */
 class culturefeed_search_views_query extends views_plugin_query {
 
-  private $has_query_search = FALSE;
-  private $parameters = array();
+  protected $has_query_search = FALSE;
+  protected $parameters = array();
 
   /**
    * Empty add_field method to support field row plugin.
@@ -40,6 +40,24 @@ class culturefeed_search_views_query extends views_plugin_query {
   function execute(&$view) {
 
     $start = microtime(TRUE);
+    $this->prepareExecute();
+
+    $searchService = culturefeed_get_search_service();
+    $result = $searchService->search($this->parameters);
+
+    // Give the result to the view.
+    $view->result = $result->getItems();
+    $view->total_rows = $result->getTotalCount();
+    $this->pager->total_items = $result->getTotalCount();
+    $this->pager->update_page_info();
+    $view->execute_time = microtime() - $start;
+
+  }
+
+  /**
+   * Prepare the execution.
+   */
+  protected function prepareExecute() {
 
     // Add grouping so returned events are not duplicate.
     $this->parameters[] = new Parameter\Group();
@@ -61,7 +79,6 @@ class culturefeed_search_views_query extends views_plugin_query {
         $start += $this->pager->options['offset'];
       }
       $this->parameters[] = new Parameter\Start($start);
-
     }
     elseif ($this->pager->options['items_per_page']) {
       $items_per_page = $this->pager->options['items_per_page'];
@@ -75,16 +92,7 @@ class culturefeed_search_views_query extends views_plugin_query {
       $this->parameters[] = new Parameter\Query('*:*');
     }
 
-    $searchService = culturefeed_get_search_service();
-    $result = $searchService->search($this->parameters);
-
-    // Give the result to the view.
-    $view->result = $result->getItems();
-    $view->total_rows = $result->getTotalCount();
-    $this->pager->total_items = $result->getTotalCount();
-    $this->pager->update_page_info();
-    $view->execute_time = microtime() - $start;
-
+    $view->execute_time = microtime(TRUE) - $start;
   }
 
   /**

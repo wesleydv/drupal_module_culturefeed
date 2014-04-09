@@ -9,6 +9,14 @@ class views_handler_sort_culturefeed_search_base extends views_handler_sort {
   protected $sort_field = '';
 
   /**
+   * @see views_handler::init()
+   */
+  function init(&$view, &$options) {
+    parent::init($view, $options);
+    $this->sort_field = $this->real_field;
+  }
+
+  /**
    * @see views_handler_sort::can_expose()
    */
   function can_expose() {
@@ -28,7 +36,7 @@ class views_handler_sort_culturefeed_search_base extends views_handler_sort {
    */
   function option_definition() {
     $options = parent::option_definition();
-    $options['order'] = array('default' => 'desc');
+    $options['order'] = array('default' => 'DESC');
 
     return $options;
   }

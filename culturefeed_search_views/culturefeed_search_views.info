@@ -5,6 +5,7 @@ version = VERSION
 core = 7.x
 
 files[] = views/plugins/culturefeed_search_views_query.inc
+files[] = views/plugins/culturefeed_search_views_query_pages.inc
 files[] = views/plugins/culturefeed_search_views_row_cdb.inc
 files[] = views/handlers/filter/views_handler_filter_culturefeed_search_filter_query.inc
 files[] = views/handlers/filter/views_handler_filter_culturefeed_search_in.inc
@@ -18,13 +19,14 @@ files[] = views/handlers/filter/views_handler_filter_culturefeed_search_createdb
 files[] = views/handlers/filter/views_handler_filter_culturefeed_search_free.inc
 files[] = views/handlers/filter/views_handler_filter_culturefeed_search_datetype.inc
 files[] = views/handlers/filter/views_handler_filter_culturefeed_search_daterange.inc
+files[] = views/handlers/filter/views_handler_filter_culturefeed_search_date.inc
 files[] = views/handlers/filter/views_handler_filter_culturefeed_search_group.inc
+files[] = views/handlers/filter/views_handler_filter_culturefeed_search_numeric.inc
 files[] = views/handlers/sort/views_handler_sort_culturefeed_search_base.inc
 files[] = views/handlers/sort/views_handler_sort_culturefeed_search_date.inc
-files[] = views/handlers/sort/views_handler_sort_culturefeed_search_recommends.inc
-files[] = views/handlers/sort/views_handler_sort_culturefeed_search_comments.inc
 files[] = views/handlers/sort/views_handler_sort_culturefeed_search_agefrom.inc
-files[] = views/handlers/sort/views_handler_sort_culturefeed_search_lastupdated.inc
+files[] = views/handlers/sort/views_handler_sort_culturefeed_search_distance.inc
+files[] = views/handlers/field/views_handler_field_cdb_item_id.inc
 files[] = views/handlers/field/views_handler_field_cdb_item_title.inc
 files[] = views/handlers/field/views_handler_field_cdb_item_lastupdated.inc
 files[] = views/handlers/field/views_handler_field_cdb_item_link.inc
@@ -33,6 +35,11 @@ files[] = views/handlers/field/views_handler_field_cdb_item_location.inc
 files[] = views/handlers/field/views_handler_field_cdb_item_organiser.inc
 files[] = views/handlers/field/views_handler_field_cdb_item_picture.inc
 files[] = views/handlers/field/views_handler_field_cdb_item_short_description.inc
+files[] = views/handlers/field/views_handler_field_cdb_item_tagline.inc
+files[] = views/handlers/field/views_handler_field_cdb_item_categories.inc
+files[] = views/handlers/field/views_handler_field_cdb_item_page_link.inc
+files[] = views/handlers/field/views_handler_field_cdb_item_email.inc
+files[] = views/handlers/field/views_handler_field_cdb_item_phone_number.inc
 
 
 dependencies[] = culturefeed_search
