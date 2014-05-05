@@ -89,6 +89,10 @@ function culturefeed_agenda_theme() {
     'template' => 'culturefeed-agenda-travel-map',
     'path' => $path,
   );
+  
+  $theme['culturefeed_agenda_admin_settings_form'] = array(
+    'arguments' => array('form' => NULL),
+  );
 
   return $theme;
 
