@@ -7,7 +7,7 @@
 /**
  * General settings for agenda.
  */
-function culturefeed_agenda_admin_settings_form($form_state) {
+function culturefeed_agenda_admin_settings_form(&$form, &$form_state) {
 
   /*$page_info = culturefeed_agenda_culturefeed_search_page_info();
   $agenda_page = current($page_info);
@@ -35,7 +35,7 @@ function culturefeed_agenda_admin_settings_form($form_state) {
   
   $form['culturefeed-agenda-sort-advanced'] = array(
     '#tree' => TRUE,
-    '#theme' => 'culturefeed_agenda_admin_settings_form',
+    //'#theme' => 'theme_culturefeed_agenda_admin_settings_form',
     '#prefix' => '<div id="culturefeed-agenda-sort-advanced-form-wrapper">',
     '#suffix' => '</div>',
     '#type' => 'tableselect',
@@ -137,8 +137,9 @@ function ajax_culturefeed_agenda_sort_callback(&$form, &$form_state) {
   }
 }
 
-function theme_culturefeed_agenda_admin_settings_form($form) {
+/*function theme_culturefeed_agenda_admin_settings_form(&$form, &$form_state) {
   $form = current($form);
+  dsm($form);
   $header = array(t('Default'), t('Enabled'), t('Label'), t('Value'), t('Sort'), t('Weight'), t('Delete'));
   
   $rows = array();
@@ -173,4 +174,4 @@ function theme_culturefeed_agenda_admin_settings_form($form) {
   drupal_add_tabledrag($table_id, 'order', 'sibling', 'culturefeed-agenda-sort-advanced-weight');
 
   return $output;
-}
+}*/
