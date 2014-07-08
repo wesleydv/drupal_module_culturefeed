@@ -248,7 +248,8 @@ function culturefeed_pages_block_page_timeline($page) {
 
   try {
     $active_types = array_keys(culturefeed_social_get_activity_filter_options(TRUE));
-    $time_line = DrupalCultureFeed::getConsumerInstance()->pages()->getTimeline($page->getId(), NULL, $active_types);
+    $extra_params = array('consumer' => variable_get('culturefeed_api_application_key', ''));
+    $time_line = DrupalCultureFeed::getConsumerInstance()->pages()->getTimeline($page->getId(), NULL, $active_types, $extra_params);
   }
   catch (Exception $e) {
     watchdog_exception('culturefeed_pages', $e);
