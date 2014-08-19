@@ -831,7 +831,7 @@ function culturefeed_entry_ui_event_form($form, $form_state, $event = NULL) {
           '#type' => 'container',
         );
 
-        if ($when == 'period' || ($date_count == 1 && !isset($form_state['values']['datetimes'][$i]['end']['date']))) {
+        if ($when == 'period' || $date_count == 1) {
 
           $form['basic']['when']['datetimes'][$i]['end']['date'] = array(
             '#type' => 'date_popup',
