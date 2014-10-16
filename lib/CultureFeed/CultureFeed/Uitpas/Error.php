@@ -96,6 +96,11 @@ class CultureFeed_Uitpas_Error
         $errors[] = self::INVALID_CARD;
         $errors[] = self::ACCESS_DENIED;
         $errors[] = self::INVALID_CARD_STATUS;
+        $errors[] = self::INVALID_CARD_STATUS_BLOCKED;
+        $errors[] = self::INVALID_CARD_STATUS_DELETED;
+        $errors[] = self::INVALID_CARD_STATUS_PROVISIONED;
+        $errors[] = self::INVALID_CARD_STATUS_SENT_TO_BALIE;
+        $errors[] = self::INVALID_CARD_STATUS_STOCK;
         $errors[] = self::INVALID_VOUCHER_STATUS;
         $errors[] = self::UNKNOWN_SCHOOL;
         $errors[] = self::PARSE_INVALID_CITY_NAME;
