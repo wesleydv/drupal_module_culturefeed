@@ -256,7 +256,7 @@ function culturefeed_agenda_get_production_program_data_for_item(Cultuurnet\Sear
       'title' => $detail->getTitle(),
       'id' => $item->getId(),
       'url' => culturefeed_search_detail_url($item->getType(), $item->getId(), $detail->getTitle()),
-      'when' => $detail->getCalendarSummary(),
+      //'when' => $detail->getCalendarSummary(),
       'city' => isset($location['city']) ? $location['city'] : '',
       'venue' => isset($location['title']) ? $location['title'] : '',
     );
@@ -286,6 +286,25 @@ function culturefeed_agenda_get_production_program_data_for_item(Cultuurnet\Sear
   }
 
   $data['calendar'] = culturefeed_agenda_parse_calendar($cdb_item->getCalendar());
+  
+  if ($data['calendar']['type'] == 'timestamps') { 
+    if (count($data['calendar']['timestamps']) > 0) {
+      foreach ($data['calendar']['timestamps'] as $key => $timestamp) {
+        if (!is_array($timestamp['begintime'])) {
+          $data['when'][] = check_plain($timestamp['day'] . ' ' . $timestamp['date'] . t(' at ') . $timestamp['begintime']);
+        }
+        else {
+          $data['when'][$key] = check_plain($timestamp['day'] . ' ' . $timestamp['date'] . t(' at ') . $timestamp['begintime']);
+        }
+      }
+    }
+    else {
+      $data['when'][] = check_plain(t('This event is finished.'));
+    }
+  }
+  else {
+    $data['when'][] = check_plain($detail->getCalendarSummary());
+  }
 
   return $data;
 }

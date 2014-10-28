@@ -319,7 +319,6 @@ function _culturefeed_agenda_preprocess_agenda(&$variables) {
   if ($keywords) {
     $variables['keywords'] = implode(', ', $keywords);
   }
-
 }
 
 /**
@@ -463,19 +462,30 @@ function _culturefeed_agenda_preprocess_event(&$variables) {
   if ($calendar = $event->getCalendar()) {
     $variables['calendar'] = culturefeed_agenda_parse_calendar($calendar);
   }
-  
-  if (count($variables['calendar']['timestamps']) > 0) {
-    foreach ($variables['calendar']['timestamps'] as $key => $timestamp) {
-      if (!is_array($timestamp['begintime'])) {
-        $variables['when'][] = $timestamp['day'] . ' ' . $timestamp['date'] . t(' at ') . $timestamp['begintime'];
+
+  if ($variables['calendar']['type'] == 'timestamps') { 
+    if (count($variables['calendar']['timestamps']) > 0) {
+      foreach ($variables['calendar']['timestamps'] as $key => $timestamp) {
+        if (!is_array($timestamp['begintime'])) {
+          $variables['when'][] = check_plain($timestamp['day'] . ' ' . $timestamp['date'] . t(' at ') . $timestamp['begintime']);
+        }
+        else {
+          $variables['when'][$key] = check_plain($timestamp['day'] . ' ' . $timestamp['date'] . t(' at '));
+          foreach ($timestamp['begintime'] as $begintime) {
+            $variables['when'][$key] .= check_plain($begintime);
+            if ($begintime != end($timestamp['begintime'])) {
+              $variables['when'][$key] .= ' | ';
+            }
+          }
+        }
       }
-      else {
-        $variables['when'][$key] = $timestamp['day'] . ' ' . $timestamp['date'] . t(' at ') . $timestamp['begintime'];
-      }
+    }
+    else {
+      $variables['when'][] = check_plain(t('This event is finished.'));
     }
   }
   else {
-    $variables['when'][] = 'This event is finished.';
+    $variables['when'][] = check_plain($event_detail->getCalendarSummary());
   }
   
   if ($event_detail) {
@@ -569,7 +579,7 @@ function _culturefeed_agenda_preprocess_production(&$variables) {
       $variables['location']['title'] = t('by appointment');
     }
 
-  }
+  } 
 
   if ($production_detail) {
 
@@ -684,6 +694,7 @@ function culturefeed_agenda_preprocess_culturefeed_agenda_production_program(&$v
     'class' => 'other',
     'children' => array(),
   );
+  
   foreach ($items as $item) {
 
     $region_found = FALSE;
@@ -716,7 +727,6 @@ function culturefeed_agenda_preprocess_culturefeed_agenda_production_program(&$v
     if (!$region_found) {
       $other['children'][] = culturefeed_agenda_get_production_program_data_for_item($item);
     }
-
   }
 
   if (count($other['children']) > 0) {
@@ -724,7 +734,6 @@ function culturefeed_agenda_preprocess_culturefeed_agenda_production_program(&$v
   }
 
   $variables['tabs'] = $tabs;
-
 }
 
 /**

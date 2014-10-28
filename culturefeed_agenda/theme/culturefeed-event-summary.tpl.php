@@ -42,7 +42,13 @@
 
     <?php if (!empty($when)): ?>
     <dt><?php print t('When'); ?></dt>
-    <dd><?php print $when; ?></dd>
+      <?php if (is_array($when)): ?>
+        <?php foreach ($when as $date): ?>
+          <dd><?php print $date; ?></dd>
+        <?php endforeach; ?>
+      <?php else: ?>
+        <dd><?php print $when; ?></dd>
+      <?php endif; ?>
     <?php endif; ?>
 
     <?php if ($organiser): ?>

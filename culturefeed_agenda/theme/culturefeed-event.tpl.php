@@ -50,10 +50,16 @@
   </dd>
   <?php endif; ?>
 
-  <dt><?php print t('When'); ?></dt>
-  <?php foreach ($when as $date): ?>
-    <dd><?php print $date; ?></dd>
-  <?php endforeach; ?>
+  <?php if (!empty($when)): ?>
+    <dt><?php print t('When'); ?></dt>
+      <?php if (is_array($when)): ?>
+        <?php foreach ($when as $date): ?>
+          <dd><?php print $date; ?></dd>
+        <?php endforeach; ?>
+      <?php else: ?>
+        <dd><?php print $when; ?></dd>
+      <?php endif; ?>
+    <?php endif; ?>
 
   <?php if ($organiser): ?>
   <dt><?php print t('Organization'); ?></dt>
