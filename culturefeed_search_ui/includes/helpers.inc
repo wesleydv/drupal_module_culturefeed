@@ -87,12 +87,11 @@ function culturefeed_search_ui_get_date_facet_options() {
 
   return array(
     'today' => t('Today'),
+    'tomorrow' => t('Tomorrow'),
     'next7days' => t('Next 7 days'),
     'thisweekend' => t('This weekend'),
-    'nextweekend' => t('Next weekend'),
     'next14days' => t('Next 14 days'),
     'next30days' => t('Next 30 days'),
-    'next12months' => t('Next 12 months'),
   );
 
 }
@@ -103,32 +102,28 @@ function culturefeed_search_ui_get_date_facet_options() {
 function culturefeed_search_ui_get_age_range_facet_options() {
   return array(
     0 => array(
-      'name' => t('0-2 year'),
+      'name' => '0-2 ' . t('year'),
       'query' => '(agefrom:[0 TO 2])',
     ),
     3 => array(
-      'name' => t('3-5 year'),
+      'name' => '3-5 ' . t('year'),
       'query' => '(agefrom:[3 TO 5])',
     ),
     6 => array(
-      'name' => t('6-8 year'),
+      'name' => '6-8 ' . t('year'),
       'query' => '(agefrom:[6 TO 8])',
     ),
     9 => array(
-      'name' => t('9-11 year'),
+      'name' => '9-11 ' . t('year'),
       'query' => '(agefrom:[9 TO 11])',
     ),
     12 => array(
-      'name' => t('12-14 year'),
+      'name' => '12-14 ' . t('year'),
       'query' => '(agefrom:[12 TO 14])',
     ),
     15 => array(
-      'name' => t('15-17 year'),
+      'name' => '15-17 ' . t('year'),
       'query' => '(agefrom:[15 TO 17])',
-    ),
-    18 => array(
-      'name' => t('18+ year'),
-      'query' => '(agefrom:[18 TO *])',
     ),
   );
 }
