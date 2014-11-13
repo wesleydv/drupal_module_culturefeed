@@ -284,3 +284,34 @@ function culturefeed_prepare_curl_upload_from_file($file) {
 
   return $file_upload;
 }
+
+/**
+ * Implements hook_form_menu_edit_item_alter().
+ */
+function culturefeed_form_menu_edit_item_alter(&$form, $form_state) {
+  $form['#validate'][] = 'culturefeed_form_menu_edit_item_validate';
+}
+
+/**
+ * Validation function for menu_edit_item().
+ *
+ * Ensure square brackets are saved as array rather then string.
+ */
+function culturefeed_form_menu_edit_item_validate($form, &$form_state) {
+
+  $item = &$form_state['values'];
+  if (isset($item['options']['query'])) {
+    $query = array();
+    foreach ($item['options']['query'] as $key => $value) {
+      if (preg_match('/\[.*?\]/', $key)) {
+        $parameter = array();
+        parse_str($key . '=' . $value, $parameter);
+        $key = key($parameter);
+        $value = $parameter[$key];
+      }
+      $query[$key] = $value;
+    }
+    $item['options']['query'] = $query;
+  }
+
+}
