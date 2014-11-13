@@ -287,6 +287,8 @@ function culturefeed_prepare_curl_upload_from_file($file) {
 
 /**
  * Implements hook_form_menu_edit_item_alter().
+ *
+ * Workaround for https://www.drupal.org/node/1220410
  */
 function culturefeed_form_menu_edit_item_alter(&$form, $form_state) {
   $form['#validate'][] = 'culturefeed_form_menu_edit_item_validate';
