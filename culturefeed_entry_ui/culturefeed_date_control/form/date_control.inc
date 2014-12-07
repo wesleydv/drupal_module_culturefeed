@@ -149,15 +149,12 @@ function culturefeed_date_control_date_control_validate(array $element, array &$
     if ($date_control['type'] == 'hybrid') {
 
       // Period.
-      if ($triggering_parent == 'end_date') {
+      if ($triggering_parent == 'add_end_date') {
 
         $type = 'period';
-        $date_control['period'] = array('start_date' => '');
+        $date_control['period'] = array('start_date' => '', 'end_date' => '');
         if (isset($date_control['hybrid']['start_date'])) {
           $date_control['period']['start_date'] = $date_control['hybrid']['start_date'];
-        }
-        if (isset($date_control['hybrid']['end_date'])) {
-          $date_control['period']['end_date'] = $date_control['hybrid']['end_date'];
         }
 
       }
@@ -171,7 +168,7 @@ function culturefeed_date_control_date_control_validate(array $element, array &$
       }
 
       // Timestamps.
-      if ($triggering_parent == 'add_date' || $triggering_parent == 'hour' || $triggering_parent == 'minute') {
+      if ($triggering_parent == 'add_date' || $triggering_parent == 'add_time') {
 
         $type = 'timestamps';
         $date_control['timestamps']['stamps'] = array(
@@ -180,11 +177,8 @@ function culturefeed_date_control_date_control_validate(array $element, array &$
         if (isset($date_control['hybrid']['start_date'])) {
           $date_control['timestamps']['stamps'][0]['date'] = $date_control['hybrid']['start_date'];
         }
-        if (isset($date_control['hybrid']['start_time'])) {
-          $date_control['timestamps']['stamps'][0]['start_time'] = $date_control['hybrid']['start_time'];
-        }
-        if (isset($date_control['hybrid']['end_time'])) {
-          $date_control['timestamps']['stamps'][0]['end_time'] = $date_control['hybrid']['end_time'];
+        if ($triggering_parent == 'add_time') {
+          $date_control['timestamps']['stamps'][0]['start_time'] = '';
         }
         if ($triggering_parent == 'add_date') {
           $date_control['timestamps']['stamps'][] = array('date' => '');
@@ -224,17 +218,14 @@ function culturefeed_date_control_date_control_validate(array $element, array &$
     if ($date_control['type'] == 'timestamps') {
 
       if (
-        (($triggering_parent == 'remove_stamp' && !isset($date_control['timestamps']['stamps'][0]['end_time'])) ||
-          $triggering_parent == 'remove_end')  && count($date_control['timestamps']['stamps']) == 1
+        (($triggering_parent == 'remove_stamp' && !isset($date_control['timestamps']['stamps'][0]['start_time'])) ||
+          $triggering_parent == 'remove_start')  && count($date_control['timestamps']['stamps']) == 1
       ) {
 
         $type = 'hybrid';
         $date_control['hybrid'] = array('start_date' => '');
         if (isset($date_control['timestamps']['stamps'][0]['date'])) {
           $date_control['hybrid']['start_date'] = $date_control['timestamps']['stamps'][0]['date'];
-        }
-        if (isset($date_control['timestamps']['stamps'][0]['start_time'])) {
-          $date_control['hybrid']['start_time'] = $date_control['timestamps']['stamps'][0]['start_time'];
         }
 
       }
@@ -258,9 +249,6 @@ function culturefeed_date_control_date_control_validate(array $element, array &$
       $date_control['timestamps']['stamps'][0] = array(
         'date' => $date_control['hybrid']['start_date'],
       );
-      if (isset($date_control['hybrid']['start_time'])) {
-        $date_control['timestamps']['stamps'][0]['start_time'] = $date_control['hybrid']['start_time'];
-      }
       $date_control['type'] = 'timestamps';
 
       $element['#parents'][] = 'date_control';
@@ -314,9 +302,6 @@ function culturefeed_date_control_date_control_value_callback(array &$element, $
         $date_control['hybrid'] = array(
           'start_date' => $default_value['timestamps'][0]['date'],
         );
-        if (isset($default_value['timestamps'][0]['start_time'])) {
-          $date_control['hybrid']['start_time'] = $default_value['timestamps'][0]['start_time'];
-        }
 
       }
 

@@ -84,43 +84,17 @@ function culturefeed_date_control_hybrid_process(array $element, array &$form_st
     '#type' => 'date_popup',
   );
 
-  $time = isset($hybrid['start_time']) && $hybrid['start_time'] ? culturefeed_date_control_implode_time($hybrid['start_time'], $date) : '';
-  $element['start_time'] = array(
-    '#date_format' => 'H:i',
-    '#date_increment' => 30,
-    '#default_value' => $time,
-    '#title' => '',
-    '#type' => 'date_select',
-  );
+  $element['add_end_date'] = array(
+    '#value' => t('+ add end date'),
+  ) + $ajax_button;
 
-  $element['add_end_date_or_time'] = $ajax_button + array(
-    '#value' => t('+ add end date or time'),
-  );
+  $element['add_time'] = array(
+    '#value' => t('+ add time'),
+  ) + $ajax_button;
 
-  $element['end_date'] = array(
-    '#access' => TRUE,
-    '#ajax' => $ajax_settings,
-    '#date_format' => 'd-m-Y',
-    '#date_label_position' => 'none',
-    '#default_value' => '',
-    '#icon' => TRUE,
-    '#title' => t('Date'),
-    '#type' => 'date_popup',
-  );
-
-  $element['end_time'] = array(
-    '#access' => TRUE,
-    '#ajax' => $ajax_settings,
-    '#date_format' => 'H:i',
-    '#date_increment' => 30,
-    '#default_value' => '',
-    '#title' => '',
-    '#type' => 'date_select',
-  );
-
-  $element['add_date'] = $ajax_button + array(
+  $element['add_date'] = array(
     '#value' => t('+ add date'),
-  );
+  ) + $ajax_button;
 
   // Value will always be 0 as a different element is used when actually
   // permanent.
@@ -132,37 +106,6 @@ function culturefeed_date_control_hybrid_process(array $element, array &$form_st
   );
 
   return $element;
-
-}
-
-/**
- * Validate and alter the culturefeed date control hybrid form values.
- *
- * @param array $element
- *   The element.
- * @param array $form_state
- *   The form state.
- */
-function culturefeed_date_control_hybrid_validate(array &$element, array &$form_state) {
-
-  $triggering_element = (isset($form_state['triggering_element'])) ? $form_state['triggering_element'] : '';
-  $triggering_parent = array_pop($triggering_element['#parents']);
-  $hybrid = $element['#value'];
-
-  if (culturefeed_date_control_check_trigger_element($triggering_element, $element)) {
-
-    switch ($triggering_parent) {
-
-      case 'add_end_date_or_time':
-
-        $hybrid['end_date'] = array('date' => '');
-        $hybrid['end_time'] = array('hour' => '', 'minute' => '');
-
-    }
-
-    drupal_array_set_nested_value($form_state['input'], $element['#parents'], $hybrid);
-
-  }
 
 }
 
@@ -193,9 +136,6 @@ function culturefeed_date_control_hybrid_value_callback(array $element, $input, 
       $default_value = $element['#default_value'];
       if (isset($default_value['start_date']) && $default_value['start_date']) {
         $value['start_date'] = culturefeed_date_control_explode_date($element, $default_value['start_date']);
-        if (isset($element['#default_value']['start_time']) && $element['#default_value']['start_time']) {
-          $value['start_time'] = culturefeed_date_control_explode_time($element, $default_value['start_time'], $default_value['start_date']);
-        }
       }
 
     }

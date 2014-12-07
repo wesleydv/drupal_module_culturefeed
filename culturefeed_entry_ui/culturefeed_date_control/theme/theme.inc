@@ -31,17 +31,9 @@ function theme_culturefeed_date_control_hybrid_table(array &$variables) {
   $cells = array();
   $cells[] = drupal_render($form['start_date']);
   $cells[] = drupal_render($form['start_time']);
-  if (!$form['end_date']['#access'] && !$form['end_time']['#access']) {
-    $cells[] = drupal_render($form['add_end_date_or_time']);
-  }
-  if ($form['end_date']['#access']) {
-    $cells[] = drupal_render($form['end_date']);
-  }
-  if ($form['end_time']['#access']) {
-    $cells[] = drupal_render($form['end_time']);
-  }
-
+  $cells[] = drupal_render($form['add_time']) . drupal_render($form['add_end_date']);
   $table['rows'][] = $cells;
+
   $output = theme('table', $table);
   $output .= drupal_render_children($form);
   return $output;
@@ -162,23 +154,53 @@ function theme_culturefeed_date_control_timestamps_table(array &$variables) {
     if ($element !== 'timestamps_add_stamp') {
 
       $cells = array();
+      // Date and time link is always present.
+      $cell_count = 0;
+
       if ($form['stamps'][$element]['remove_stamp']['#access']) {
         $cells[] = drupal_render($form['stamps'][$element]['remove_stamp']);
+        $cell_count++;
       }
+
       $cells[] = drupal_render($form['stamps'][$element]['date']);
-      $cells[] = drupal_render($form['stamps'][$element]['start_time']);
-      if ($form['stamps'][$element]['end_time']['#access']) {
-        $cells[] = drupal_render($form['stamps'][$element]['end_time']);
+      $cell_count++;
+
+      if ($form['stamps'][$element]['add_start']['#access']) {
+        $cells[] = drupal_render($form['stamps'][$element]['add_start']);
+        $cell_count++;
+      }
+      elseif ($form['stamps'][$element]['start_time']['#access']) {
+        $cells[] = drupal_render($form['stamps'][$element]['start_time']);
+        $cell_count++;
+      }
+
+      // Remove start and add end are rendered together.
+      $cell = '';
+      if ($form['stamps'][$element]['remove_start']['#access']) {
+        $cell .= drupal_render($form['stamps'][$element]['remove_start']);
       }
       if ($form['stamps'][$element]['add_end']['#access']) {
-        $cells[] = drupal_render($form['stamps'][$element]['add_end']);
+        $cell .= drupal_render($form['stamps'][$element]['add_end']);
+      }
+      if ($cell) {
+        $cells[] = $cell;
+        $cell_count++;
+      }
+
+      if ($form['stamps'][$element]['end_time']['#access']) {
+        $cells[] = drupal_render($form['stamps'][$element]['end_time']);
+        $cell_count++;
       }
       if ($form['stamps'][$element]['remove_end']['#access']) {
         $cells[] = drupal_render($form['stamps'][$element]['remove_end']);
+        $cell_count++;
       }
-      elseif ($form['#cell_count'] == 5) {
+
+      while ($form['#cell_count'] - $cell_count > 0) {
         $cells[] = '';
+        $cell_count++;
       }
+
       $table['rows'][] = $cells;
 
     }

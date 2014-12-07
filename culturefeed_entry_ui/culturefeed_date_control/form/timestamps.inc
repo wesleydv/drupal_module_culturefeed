@@ -17,26 +17,47 @@
 function culturefeed_date_control_timestamps_pre_render(array $element) {
 
   $timestamps = $element['#value']['stamps'];
+  $element['#cell_count'] = 5;
 
   // Remove button is not required if only one row.
   if (count($timestamps) < 2) {
     $element['stamps'][0]['remove_stamp']['#access'] = FALSE;
+    $element['#cell_count'] = 4;
   }
 
   foreach ($timestamps as $key => $timestamp) {
 
-    if (
-      isset($timestamps[$key]['end_time'])
-      && !is_null($timestamps[$key]['end_time']['hour'])
-      && !is_null($timestamps[$key]['end_time']['minute'])
-    ) {
+    $cell_count = $element['#cell_count'];
+
+    if (!isset($timestamps[$key]['start_time'])) {
+
+      $element['stamps'][$key]['start_time']['#access'] = FALSE;
+      $element['stamps'][$key]['remove_start']['#access'] = FALSE;
       $element['stamps'][$key]['add_end']['#access'] = FALSE;
-      $element['#cell_count'] = 5;
-    }
-    else {
       $element['stamps'][$key]['end_time']['#access'] = FALSE;
       $element['stamps'][$key]['remove_end']['#access'] = FALSE;
+      $cell_count = $cell_count - 2;
+
     }
+
+    else {
+
+      $element['stamps'][$key]['add_start']['#access'] = FALSE;
+
+      if (isset($timestamps[$key]['end_time'])) {
+        $element['stamps'][$key]['remove_start']['#access'] = FALSE;
+        $element['stamps'][$key]['add_end']['#access'] = FALSE;
+      }
+      else {
+        $element['stamps'][$key]['end_time']['#access'] = FALSE;
+        $element['stamps'][$key]['remove_end']['#access'] = FALSE;
+        $cell_count = $cell_count - 1;
+      }
+
+    }
+
+    $element['#cell_count'] = ($cell_count > $element['#cell_count']) ? $cell_count : $element['#cell_count'];
+
   }
 
   return $element;
@@ -105,14 +126,25 @@ function culturefeed_date_control_timestamps_process(array $element, array &$for
       '#type' => 'date_popup',
     );
 
+    $element['stamps'][$key]['add_start'] = array(
+      '#name' => 'add_start_' . $key,
+      '#value' => t('+ add start time'),
+    ) + $ajax_button;
+
     $time = isset($timestamp['start_time']) && $timestamp['start_time'] ? culturefeed_date_control_implode_time($timestamp['start_time'], $date) : '';
     $element['stamps'][$key]['start_time'] = array(
+      '#access' => TRUE,
       '#date_format' => $element['#select_time_format'],
       '#date_increment' => $element['#select_time_increment'],
       '#default_value' => $time,
       '#title' => '',
       '#type' => 'date_select',
     );
+
+    $element['stamps'][$key]['remove_start'] = array(
+      '#name' => 'remove_start_' . $key,
+      '#value' => t('- remove start time'),
+    ) + $ajax_button;
 
     $time = isset($timestamp['end_time']) && $timestamp['end_time'] ? culturefeed_date_control_implode_time($timestamp['end_time'], $date) : '';
     $element['stamps'][$key]['end_time'] = array(
@@ -178,6 +210,16 @@ function culturefeed_date_control_timestamps_validate(array $element, array &$fo
       case 'remove_stamp':
         $index = array_pop($triggering_element['#parents']);
         array_splice($timestamps['stamps'], $index, 1);
+        break;
+
+      case 'add_start':
+        $index = array_pop($triggering_element['#parents']);
+        $timestamps['stamps'][$index]['start_time'] = array('hour' => '', 'minute' => '');
+        break;
+
+      case 'remove_start':
+        $index = array_pop($triggering_element['#parents']);
+        unset($timestamps['stamps'][$index]['start_time']);
         break;
 
       case 'add_end':
