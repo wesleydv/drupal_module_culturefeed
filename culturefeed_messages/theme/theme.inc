@@ -284,7 +284,7 @@ function _culturefeed_messages_preprocess_message(&$variables) {
     $variables['sender_page'] = check_plain($message->senderPage->getName());
   }
 
-  $variables['picture'] = !empty($message->sender->depiction) ? theme('image', array('path' => $message->sender->depiction . '?maxwidth=100')) : '';
+  $variables['picture'] = !empty($message->sender->depiction) ? theme('image', array('path' => $message->sender->depiction . '?maxwidth=100', 'alt' => $message->sender->nick)) : '';
 
   $date = empty($message->lastReply) ? $message->creationDate : $message->lastReply;
   $time_zone  = new DateTimeZone('Europe/Brussels');

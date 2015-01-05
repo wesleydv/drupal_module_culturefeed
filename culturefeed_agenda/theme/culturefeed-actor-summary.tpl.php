@@ -15,7 +15,7 @@
 
   <div class="image">
     <?php if (!empty($thumbnail)): ?>
-      <?php print culturefeed_search_detail_l('actor', $cdbid, $title, '<img src="' . $thumbnail . '?width=160&height=120&crop=auto" />', array('attributes' => array('id' => 'cf-image_' . $cdbid), 'html' => TRUE)); ?>
+      <?php print culturefeed_search_detail_l('actor', $cdbid, $title, '<img src="' . $thumbnail . '?width=160&height=120&crop=auto" alt="' . $title . '" />', array('attributes' => array('id' => 'cf-image_' . $cdbid), 'html' => TRUE)); ?>
     <?php endif; ?>
   </div>
 

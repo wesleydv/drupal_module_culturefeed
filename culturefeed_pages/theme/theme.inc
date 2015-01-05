@@ -608,7 +608,7 @@ function theme_culturefeed_pages_edit_membership_form($variables) {
   $cf_user = $variables['form']['#membership']->user;
   $page = $variables['form']['#membership']->page;
 
-  $output = '<td>' . theme('image', array('path' => $cf_user->depiction . '?maxwidth=100')) . $cf_user->nick . '</td>';
+  $output = '<td>' . theme('image', array('path' => $cf_user->depiction . '?maxwidth=100', 'alt' => $cf_user->nick)) . $cf_user->nick . '</td>';
   $output .= '<td>' . date('d/m/Y H:i', $variables['form']['#membership']->creationDate) . '</td>';
 
   $output .= '<td>' . drupal_render_children($variables['form']) . '</td>';

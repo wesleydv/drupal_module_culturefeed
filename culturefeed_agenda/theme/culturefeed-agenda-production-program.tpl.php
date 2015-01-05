@@ -36,7 +36,7 @@
           <dd><?php print $when; ?></dd>
         <?php endif; ?>
         <?php if (isset($content['all_url'])): ?>
-        <a href="<?print $content['all_url']; ?>"><?php print t('Show all'); ?></a>
+        <a href="<?php print $content['all_url']; ?>"><?php print t('Show all'); ?></a>
         <?php endif; ?>
 
       </div>

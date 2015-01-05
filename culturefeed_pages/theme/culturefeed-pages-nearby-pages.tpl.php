@@ -6,7 +6,7 @@
   <div class="nearby-pages-row">
     <?php if ($item['image']): ?>
       <div>
-        <img src="<?php print $item['image'] ?>?width=50&height=50&crop=auto" width="50" height="50" />
+        <img src="<?php print $item['image'] ?>?width=50&height=50&crop=auto" width="50" height="50" alt="<?php print $item['location']; ?>" />
       </div>
     <?php endif; ?>
     <div>

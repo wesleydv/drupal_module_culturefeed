@@ -7,7 +7,7 @@
     <li>
       <a href="<?php print $colleague['url'] ?>"><?php print $colleague['name']; ?></a>
       <?php if ($colleague['picture']): ?>
-      <?php print theme('image', array('path' => $colleague['picture'] . '?maxwidth=100')) ?>
+      <?php print theme('image', array('path' => $colleague['picture'] . '?maxwidth=100', 'alt' => $colleague['name'])) ?>
       <?php endif; ?>
     </li>
   <?php endforeach; ?>

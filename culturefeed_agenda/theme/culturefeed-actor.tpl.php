@@ -62,10 +62,10 @@
 
 </dl>
 
-<img src="<?php print $main_picture; ?>" />
+<img src="<?php print $main_picture; ?>" alt="<?php print $title; ?>" />
 
 <?php foreach ($pictures as $picture): ?>
-  <img src="<?php print $picture; ?>?width=160&height=120&crop=auto" />
+  <img src="<?php print $picture; ?>?width=160&height=120&crop=auto" alt="<?php print $title; ?>" />
 <?php endforeach; ?>
 
 <?php foreach ($videos as $video): ?>

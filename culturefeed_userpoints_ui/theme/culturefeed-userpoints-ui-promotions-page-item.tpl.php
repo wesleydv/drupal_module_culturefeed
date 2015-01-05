@@ -14,7 +14,7 @@
 
 <?php if (!empty($picture_url)): ?>
 <p>
-  <img style="float: right;" width="100" src="<?php print $picture_url; ?>" />
+  <img style="float: right;" width="100" src="<?php print $picture_url; ?>" alt="<?php print $title ?>" />
   <span><?php print $real_points ?></span>
 </p>
 <?php endif; ?>

@@ -7,7 +7,7 @@
 </p>
 
 <?php if (!empty($image)): ?>
-    <a href="<?php print $url; ?>"><img src="<?php print $image; ?>?width=75&height=75&crop=auto" /></a>
+    <a href="<?php print $url; ?>"><img src="<?php print $image; ?>?width=75&height=75&crop=auto" alt="<?php print $title; ?>" /></a>
 <?php endif; ?>
 
 <?php if (!empty($description)): ?>

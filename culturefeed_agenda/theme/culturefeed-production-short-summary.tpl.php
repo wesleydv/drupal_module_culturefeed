@@ -15,7 +15,7 @@
 <?php endif;?>
 
 <?php if (!empty($thumbnail)): ?>
-<img src="<?php print $thumbnail; ?>?width=160&height=120&crop=auto" />
+<img src="<?php print $thumbnail; ?>?width=160&height=120&crop=auto" alt="<?php print $title; ?>"/>
 <?php endif; ?>
 
 <?php print culturefeed_search_detail_l('production', $cdbid, $title, t('More info'), array('attributes' => array('class' => 'button'))); ?>

@@ -35,7 +35,7 @@ function culturefeed_social_preprocess_culturefeed_social_user_activity_summary(
 
   $activity = $variables['activity'];
 
-  $picture = theme('image', array('path' => $activity->depiction . '?maxwidth=50&maxheight=50&crop=auto'));
+  $picture = theme('image', array('path' => $activity->depiction . '?maxwidth=50&maxheight=50&crop=auto', 'alt' => $activity->nick));
   $user_url = 'user/' . $variables['uid'];
 
   $variables['picture'] = l($picture, $user_url, array('html' => TRUE));
@@ -365,7 +365,7 @@ function culturefeed_social_preprocess_culturefeed_social_comment_list_item(&$va
   }
 
   // Variables for one list item.
-  $picture = theme('image', array('path' => $activity->depiction . '?maxwidth=75&maxheight=75&crop=auto'));
+  $picture = theme('image', array('path' => $activity->depiction . '?maxwidth=75&maxheight=75&crop=auto', 'alt' => $activity->nick));
   $author_url = 'user/' . $variables['uid'];
 
   $variables['picture'] = l($picture, $author_url, array('html' => TRUE));
@@ -616,7 +616,7 @@ function culturefeed_social_preprocess_culturefeed_social_news_detail(&$variable
   $activity = $variables['activity'];
   $variables['activity_id'] = $variables['activity']->id;
 
-  $picture = theme('image', array('path' => $activity->depiction . '?maxwidth=50&maxheight=50&crop=auto'));
+  $picture = theme('image', array('path' => $activity->depiction . '?maxwidth=50&maxheight=50&crop=auto', 'alt' => $activity->nick));
   $user_url = 'user/' . $activity->userId;
 
   $variables['nick'] = l($activity->nick, $user_url);

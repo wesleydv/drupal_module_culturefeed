@@ -15,7 +15,7 @@
 <div>
   <a href="<?php print $prev_item_url ?>">
     <?php if (!empty($prev_image_url)): ?>
-    <img src="<?php print $prev_image_url ?>" />
+    <img src="<?php print $prev_image_url ?>" alt="Previous" />
     <?php else: ?>
     <?php print $prev_item_title; ?>
     <?php endif; ?>
@@ -27,7 +27,7 @@
 <div>
   <a href="<?php print $next_item_url ?>">
     <?php if (!empty($next_image_url)): ?>
-    <img src="<?php print $next_image_url ?>" />
+    <img src="<?php print $next_image_url ?>" alt="Next" />
     <?php else: ?>
     <?php print $next_item_title; ?>
     <?php endif; ?>

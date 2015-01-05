@@ -301,7 +301,7 @@ function culturefeed_uitpas_preprocess_culturefeed_uitpas_profile_summary(&$vars
   $upcoming_promotions = $vars['upcoming_promotions'];
 
   if (isset($uitpas_user->depiction)) {
-    $vars['image'] = theme_image(array('path' => $uitpas_user->depiction . '?maxwidth=50&amp;maxheight=50&amp;crop=auto', 'attributes' => array()));
+    $vars['image'] = theme_image(array('path' => $uitpas_user->depiction . '?maxwidth=50&amp;maxheight=50&amp;crop=auto', 'alt' => $uitpas_user->nick, 'attributes' => array()));
   }
   else {
     $vars['image'] = '';
@@ -597,7 +597,7 @@ function culturefeed_uitpas_preprocess_culturefeed_uitpas_recent_actions(&$vars)
     $plural = "<strong>!name</strong> " .  t('saved') . " @count " . t('points') . " " . t('at') . " !subject, <span class=\"time-ago\"> !time_ago " .  t('ago') . "</span>";
     $image = ($action->depiction) ? $action->depiction . '?maxwidth=50&maxheight=50&crop=auto' : variable_get('culturefeed_uitpas_user_default_image');
     if ($image) {
-      $image = theme_image(array('path' => $image, 'attributes' => array('class' => 'thumbnail')));
+      $image = theme_image(array('path' => $image, 'alt' => 'User image', 'attributes' => array('class' => 'thumbnail')));
     }
 
     $list['items'][] = $image . format_plural($action->points, $singular, $plural, $args);

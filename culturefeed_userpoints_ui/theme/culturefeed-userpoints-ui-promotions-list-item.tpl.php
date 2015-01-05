@@ -28,7 +28,7 @@ $label = $can_exchange ? 'label-success' : 'label-important';
 ?>
 <div class="thumbnail <?php if(!$can_exchange) print 'well '; ?><?php print $classes ?>" id="culturefeed-userpoints-item-wrapper-<?php print $id ?>">
   <?php if(!empty($picture_url)): ?>
-    <img src="<?php print $picture_url; ?>?width=480&height=320&crop=auto" />
+    <img src="<?php print $picture_url; ?>?width=480&height=320&crop=auto" alt="<?php print $link ?>" />
   <?php endif; ?>
 
   <h3><?php print $link ?></h3>

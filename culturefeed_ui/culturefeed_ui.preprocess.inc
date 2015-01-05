@@ -49,7 +49,7 @@ function template_preprocess_culturefeed_ui_profile(&$variables) {
   $variables['bio'] = !empty($account->bio) ? check_plain($account->bio) : '';
 
   // picture
-  $variables['picture'] = !empty($account->depiction) ? theme('image', array('path' => $account->depiction . '?maxwidth=100')) : '';
+  $variables['picture'] = !empty($account->depiction) ? theme('image', array('path' => $account->depiction . '?maxwidth=100', 'alt' => $variables['nick'])) : '';
 
   // city
   $variables['city'] = !empty($account->city) ? check_plain($account->city) : '';
@@ -107,7 +107,7 @@ function template_preprocess_culturefeed_ui_online_account(&$variables) {
   $variables['nick'] = !empty($account->accountNick) ? check_plain($account->accountNick) : '';
   $variables['depiction'] = !empty($account->accountDepiction) ? check_plain($account->accountDepiction) : '';
 
-  $variables['picture'] = !empty($account->accountDepiction) ? theme('image', array('path' => $account->accountDepiction . '?maxwidth=50&maxheight=50&crop=auto')) : '';
+  $variables['picture'] = !empty($account->accountDepiction) ? theme('image', array('path' => $account->accountDepiction . '?maxwidth=50&maxheight=50&crop=auto', 'alt' => $account->accountNick)) : '';
 }
 
 /**
@@ -159,12 +159,13 @@ function template_preprocess_culturefeed_ui_anonymous_profile_box(&$variables) {
  * @see culturefeed-ui-profile-box.tpl.php
  */
 function template_preprocess_culturefeed_ui_profile_box(&$variables) {
-
-  $picture = $variables['account']->depiction . '?maxwidth=20&maxheight=20&crop=auto';
-  $variables['picture'] = theme('image', array('path' => $picture));
-
   $variables['nick'] = $variables['profile_name']['nick'];
   $variables['link'] = $variables['profile_name']['link'];
+  
+  $picture = $variables['account']->depiction . '?maxwidth=20&maxheight=20&crop=auto';
+  $variables['picture'] = theme('image', array('path' => $picture, 'alt' => $variables['nick']));
+
+  
 
   uasort($variables['main_items'], 'drupal_sort_weight');
 
@@ -189,7 +190,7 @@ function template_preprocess_culturefeed_ui_most_active_user(&$variables) {
   $account instanceof CultureFeed_User;
 
   $url = 'user/' . culturefeed_get_uid_for_cf_uid($account->id, $account->nick);
-  $picture = theme('image', array('path' => $account->depiction . '?maxwidth=93&maxheight=93&crop=auto'));
+  $picture = theme('image', array('path' => $account->depiction . '?maxwidth=93&maxheight=93&crop=auto', 'alt' => $account->nick));
 
   $variables['picture'] = l($picture, $url, array('html' => TRUE));
 
@@ -233,8 +234,9 @@ function template_preprocess_culturefeed_ui_service_consumer_summary(&$variables
   $consumer = $variables['consumer'];
   $consumer instanceof CultureFeed_Consumer;
 
-  $variables['logo'] = isset($consumer->logo) ? theme('image' , array('path' => $consumer->logo . '?maxwidth=100&maxheight=100')) : '';
   $variables['name'] = isset($consumer->name) ? check_plain($consumer->name) : '';
+  $variables['logo'] = isset($consumer->logo) ? theme('image' , array('path' => $consumer->logo . '?maxwidth=100&maxheight=100', 'alt' => $variables['name'])) : '';
+  
   $variables['description'] = isset($consumer->description) ? check_plain($consumer->description) : '';
   $variables['creation_date'] = t('Connected to') . format_date($consumer->creationDate, 'custom', 'j F Y');
 }
