@@ -17,11 +17,11 @@ function _culturefeed_search_ui_video_url_to_embed($url) {
   if (count($video_parts) < 2) {
     return FALSE;
   }
-  $embed_url = $video_parts[0] . '/' . $video_parts[1];
-  $embed_url .= '?fs=1&showinfo=0';
 
-  $embed = '';
-  $embed .= '<div class="embed-container">';
+  $embed_url =  'http://www.youtube.com/embed/' . $video_parts[1];
+  $embed_url .= '?fs=1&showinfo=1';
+
+  $embed = '<div class="embed-container">';
   $embed .= '<iframe src="' .  $embed_url . '" frameborder="0" allowfullscreen></iframe>';
   $embed .= '</div>';
 
