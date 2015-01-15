@@ -7,7 +7,7 @@
 /**
  * Convert a given url to a youtube embed.
  */
-function _culturefeed_search_ui_video_url_to_embed($url) {
+function _culturefeed_search_ui_video_url_to_embed($url, $title) {
 
   // Construct embed url.
   $embed_url = str_replace('watch', 'v', $url);
@@ -17,12 +17,11 @@ function _culturefeed_search_ui_video_url_to_embed($url) {
   if (count($video_parts) < 2) {
     return FALSE;
   }
-
   $embed_url =  'http://www.youtube.com/embed/' . $video_parts[1];
   $embed_url .= '?fs=1&showinfo=1';
 
   $embed = '<div class="embed-container">';
-  $embed .= '<iframe src="' .  $embed_url . '" frameborder="0" allowfullscreen></iframe>';
+  $embed .= '<iframe src="' .  $embed_url . '" name="Video: ' .  $title . '" title="Video: ' .  $title . '" frameborder="0" allowfullscreen></iframe>';
   $embed .= '</div>';
 
   return $embed;
