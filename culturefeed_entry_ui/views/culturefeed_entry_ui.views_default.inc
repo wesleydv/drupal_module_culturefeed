@@ -22,17 +22,17 @@ function culturefeed_entry_ui_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Events created by me';
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'meer';
+  $handler->display->display_options['use_more_text'] = t('More');
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['access']['perm'] = 'create culturefeed events';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Toepassen';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Opnieuw instellen';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sorteren op';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Oplopend';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Aflopend';
+  $handler->display->display_options['exposed_form']['options']['submit_button'] = t('Submit');
+  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = t('Reset');
+  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = t('Sort on');
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = t('Ascending');
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = t('Descending');
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
@@ -156,26 +156,26 @@ function culturefeed_entry_ui_views_default_views() {
   $translatables['culturefeed_events_createdbycurrentuser'] = array(
     t('Master'),
     t('Events created by me'),
-    t('meer'),
-    t('Toepassen'),
-    t('Opnieuw instellen'),
-    t('Sorteren op'),
-    t('Oplopend'),
-    t('Aflopend'),
+    t('more'),
+    t('Submit'),
+    t('Reset'),
+    t('Sort on'),
+    t('Ascending'),
+    t('Descending'),
     t('Notification that no results were found'),
     t('Unable to find any events created by you.'),
-    t('Laatst bijgewerkt'),
+    t('Last updated'),
     t('Created by current user'),
     t('Block'),
-    t('Pagina'),
+    t('Page'),
     t('Edit events'),
-    t('Items per pagina'),
-    t('- Alle -'),
-    t('Startpunt'),
-    t('« eerste'),
-    t('‹ vorige'),
-    t('volgende ›'),
-    t('laatste »'),
+    t('Items per page'),
+    t('- All -'),
+    t('Start'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
   );
 
   $views[$view->name] = $view;

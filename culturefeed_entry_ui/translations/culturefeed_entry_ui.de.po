@@ -1,657 +1,813 @@
+# $Id$
+#
+# German translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  culturefeed_entry_ui.module: n/a
+#  views/culturefeed_entry_ui.views_default.inc: n/a
+#  includes/culturefeed_entry_ui.pages.inc: n/a
+#  views/handlers/views_handler_field_cdb_item_operations.inc: n/a
+#  views/handlers/views_handler_area_cdb_item_create.inc: n/a
+#  culturefeed_entry_ui.info: n/a
+#  culturefeed_date_control/culturefeed_date_control.info: n/a
+#  culturefeed_date_control/culturefeed_date_control.module: n/a
+#  culturefeed_date_control/form/date_control.inc: n/a
+#  culturefeed_date_control/form/hybrid.inc: n/a
+#  culturefeed_date_control/form/timestamps.inc: n/a
+#  culturefeed_date_control/form/opening_times.inc: n/a
+#  culturefeed_date_control/form/period.inc: n/a
+#  culturefeed_date_control/theme/theme.inc: n/a
+#  includes/culturefeed_entry_ui.admin.inc: n/a
+#  js/bootstrap_autocomplete_override.js: n/a
+#  js/culturefeed_entry_ui.js: n/a
+#  views/culturefeed_entry_ui.views.inc: n/a
+#
+#, fuzzy
 msgid ""
 msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2015-01-22 16:05+0100\n"
+"PO-Revision-Date: 2015-01-22 16:05+0100\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: German <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: POEditor.com\n"
-"Project-Id-Version: CFK - translations\n"
-"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
-#: 
+#: culturefeed_entry_ui.module:18
 msgid "Manage object tags"
 msgstr "Objekt-Tags verwalten"
 
-#: 
+#: culturefeed_entry_ui.module:19
 msgid "Manage all the tags from the objects on culturefeed (events, actors, ...)."
 msgstr "Alle Tags der Objekte auf CultureFeed verwalten (Events, Akteure usw.)"
 
-#: 
+#: culturefeed_entry_ui.module:22
 msgid "Manage custom tags"
 msgstr "Benutzerdefinierte Tags verwalten"
 
-#: 
+#: culturefeed_entry_ui.module:23
 msgid "Manage custom tags from the objects on culturefeed (events, actors, ...) managed on the admin section."
-msgstr "Alle benutzerdefinierten Tags der Objekte auf CultureFeed verwalten (Events, Akteure usw.), die im Admin-Bereich verwaltet werden"
+msgstr ""
+"Alle benutzerdefinierten Tags der Objekte auf CultureFeed verwalten "
+"(Events, Akteure usw.), die im Admin-Bereich verwaltet werden"
 
-#: 
+#: culturefeed_entry_ui.module:26
 msgid "Create events"
 msgstr "Events anlegen"
 
-#: 
+#: culturefeed_entry_ui.module:27
 msgid "Create new events through the entity api."
 msgstr "Neue Events über die Entity API anlegen."
 
-#: 
+#: culturefeed_entry_ui.module:30 views/culturefeed_entry_ui.views_default.inc:171
 msgid "Edit events"
 msgstr "Events bearbeiten"
 
-#: 
+#: culturefeed_entry_ui.module:31
 msgid "Edit events through the entity api."
 msgstr "Events über die Entity API bearbeiten."
 
-#: 
+#: culturefeed_entry_ui.module:34
 msgid "Delete events"
 msgstr "Events löschen"
 
-#: 
+#: culturefeed_entry_ui.module:35
 msgid "Delete events through the entity api."
 msgstr "Events über die Entity API löschen."
 
-#: 
+#: culturefeed_entry_ui.module:135;63 includes/culturefeed_entry_ui.pages.inc:755;2508 views/handlers/views_handler_field_cdb_item_operations.inc:54
 msgid "Tags"
 msgstr "Tags"
 
-#: 
+#: culturefeed_entry_ui.module:150 views/handlers/views_handler_field_cdb_item_operations.inc:27
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: 
+#: culturefeed_entry_ui.module:168
 msgid "View"
 msgstr "Ansehen"
 
-#: 
-msgid "ZIP Code"
-msgstr "Postleitzahl"
+#: culturefeed_entry_ui.module:375 views/handlers/views_handler_area_cdb_item_create.inc:19
+msgid "Add event"
+msgstr "Event hinzufügen"
 
-#: 
+#: culturefeed_entry_ui.module:401
+msgid "Some disallowed html tags will be removed in the %field_name field. The allowed tags are %allowed_tags"
+msgstr ""
+
+#: culturefeed_entry_ui.module:71
 msgid "New event"
 msgstr "Neue Aktivität"
 
-#: 
+#: culturefeed_entry_ui.module:79
 msgid "Edit event"
 msgstr "Aktivität bearbeiten"
 
-#: 
+#: culturefeed_entry_ui.module:87
 msgid "Delete event"
 msgstr "Aktivität löschen"
 
-#: 
+#: culturefeed_entry_ui.module:95 culturefeed_entry_ui.info:0
 msgid "CultureFeed Entry UI"
 msgstr "CultureFeed Eingabe-UI"
 
-#: 
+#: culturefeed_entry_ui.module:96
 msgid "All configurations to entry api for this site"
 msgstr "Alle Konfigurationen für Eingabe-API auf dieser Webseite"
 
-#: 
+#: culturefeed_entry_ui.info:0
 msgid "Multilingual forms to post, update and delete events to UiTDatabank Entry API"
-msgstr "Mehrsprachige Formulare, um Events an die UiTDatenbank-Eingabe-API zu senden, sie zu aktualisieren und zu löschen"
+msgstr ""
+"Mehrsprachige Formulare, um Events an die UiTDatenbank-Eingabe-API zu "
+"senden, sie zu aktualisieren und zu löschen"
 
-#: 
+#: culturefeed_entry_ui.info:0 culturefeed_date_control/culturefeed_date_control.info:0
 msgid "CultureFeed"
 msgstr "CultureFeed"
 
-#: 
-msgid "Preferred language"
-msgstr "Sprachpräferenz"
+#: culturefeed_date_control/culturefeed_date_control.module:253
+msgid "AHAH callback"
+msgstr ""
 
-#: 
-msgid "Use the preferred language of the UiTID user, with the Drupal UI language as fallback"
-msgstr "Die bevorzugte Sprache des UiTID-Users verwenden, wobei notfalls auf die Drupal-UI-Sprache zurückgegriffen wird"
+#: culturefeed_date_control/culturefeed_date_control.info:0
+msgid "CultureFeed Entry UI Date control"
+msgstr ""
 
-#: 
-msgid "Custom tags"
-msgstr "Benutzerdefinierte Tags"
+#: culturefeed_date_control/culturefeed_date_control.info:0
+msgid "Form element to manage dates in the Entry UI."
+msgstr ""
 
-#: 
-msgid "Custom tags specific for this site. Use a new line for each tag."
-msgstr "Benutzerdefinierte Tags speziell für diese Webseite. Neue Zeile für jedes Tag verwenden."
-
-#: 
-msgid "mon"
-msgstr "Mo"
-
-#: 
-msgid "tue"
-msgstr "Di"
-
-#: 
-msgid "wed"
-msgstr "Mi"
-
-#: 
-msgid "thu"
-msgstr "Do"
-
-#: 
-msgid "fri"
-msgstr "Fr"
-
-#: 
-msgid "sat"
-msgstr "Sa"
-
-#: 
-msgid "sun"
-msgstr "So"
-
-#: 
-msgid "Basic info"
-msgstr "Grundlegende Infos"
-
-#: 
-msgid "Event title"
-msgstr "Titel"
-
-#: 
-msgid "Concerts"
-msgstr "Konzerte"
-
-#: 
-msgid "Dance"
-msgstr "Tanz"
-
-#: 
-msgid "Film"
-msgstr "Film"
-
-#: 
-msgid "Theatre"
-msgstr "Theater"
-
-#: 
-msgid "Sport"
-msgstr "Sport"
-
-#: 
-msgid "Location"
-msgstr "Standort"
-
-#: 
-msgid "Location not found, add location"
-msgstr "Veranstaltungsort nicht gefunden, Veranstaltungsort hinzufügen"
-
-#: 
-msgid "Location Title"
-msgstr "Bezeichnung Veranstaltungsort"
-
-#: 
-msgid "Street"
-msgstr "Straße"
-
-#: 
-msgid "House Number"
-msgstr "Hausnummer"
-
-#: 
-msgid "City"
-msgstr "Stadt oder Ort"
-
-#: 
-msgid "Country"
-msgstr "Land"
-
-#: 
+#: culturefeed_date_control/form/date_control.inc:28 includes/culturefeed_entry_ui.pages.inc:671
 msgid "Dates"
 msgstr "Daten"
 
-#: 
+#: culturefeed_date_control/form/date_control.inc:87 culturefeed_date_control/form/hybrid.inc:131
 msgid "Permanent"
 msgstr "Dauerhaft"
 
-#: 
-msgid "remove date"
-msgstr "datum entfernen"
-
-#: 
+#: culturefeed_date_control/form/hybrid.inc:83;108 culturefeed_date_control/form/timestamps.inc:104
 msgid "Date"
-msgstr "Anfangsdatum"
+msgstr "Datum"
 
-#: 
+#: culturefeed_date_control/form/hybrid.inc:98
 msgid "+ add end date or time"
 msgstr "+ Ende hinzufügen"
 
-#: 
-msgid "End date"
-msgstr "Enddatum"
-
-#: 
-msgid "remove end date"
-msgstr "Ende entfernen"
-
-#: 
+#: culturefeed_date_control/form/hybrid.inc:124 culturefeed_date_control/form/timestamps.inc:143
 msgid "+ add date"
 msgstr "+ Datum hinzufügen"
 
-#: 
-msgid "Open all day?"
-msgstr "Ganztägig geöffnet?"
+#: culturefeed_date_control/form/opening_times.inc:24
+msgid "mon"
+msgstr "Mo"
 
-#: 
+#: culturefeed_date_control/form/opening_times.inc:25
+msgid "tue"
+msgstr "Di"
+
+#: culturefeed_date_control/form/opening_times.inc:26
+msgid "wed"
+msgstr "Mi"
+
+#: culturefeed_date_control/form/opening_times.inc:27
+msgid "thu"
+msgstr "Do"
+
+#: culturefeed_date_control/form/opening_times.inc:28
+msgid "fri"
+msgstr "Fr"
+
+#: culturefeed_date_control/form/opening_times.inc:29
+msgid "sat"
+msgstr "Sa"
+
+#: culturefeed_date_control/form/opening_times.inc:30
+msgid "sun"
+msgstr "So"
+
+#: culturefeed_date_control/form/opening_times.inc:36
 msgid "Yes"
 msgstr "Ja"
 
-#: 
+#: culturefeed_date_control/form/opening_times.inc:36
 msgid "No"
 msgstr "Nein"
 
-#: 
-msgid "Extra info"
-msgstr "Zusatzinfo"
+#: culturefeed_date_control/form/opening_times.inc:37
+msgid "Open all day ?"
+msgstr ""
 
-#: 
-msgid "Description"
-msgstr "Beschreibung"
-
-#: 
-msgid "Short description"
-msgstr "Kurzbeschreibung"
-
-#: 
-msgid "+ add long description"
-msgstr "+ ausführliche Beschreibung hinzufügen"
-
-#: 
-msgid "Long description"
-msgstr "Ausführliche Beschreibung"
-
-#: 
-msgid "Add multiple tags seperated by a \";\""
-msgstr "Mehrere Tags getrennt durch ein Semikolon (;) hinzufügen"
-
-#: 
-msgid "Links"
-msgstr "Links"
-
-#: 
-msgid "+ add another link"
-msgstr "+ weiteren Link hinzufügen"
-
-#: 
-msgid "Image"
-msgstr "Bild"
-
-#: 
-msgid "Image upload"
-msgstr "Bild hinaufladen"
-
-#: 
-msgid "Allowed extensions: gif png jpg jpeg"
-msgstr "Zugelassene Dateierweiterungen: gif png jpg jpeg"
-
-#: 
-msgid "I agree to the <a href="http://www.uitdatabank.be/uitportal/legal.aspx">terms & conditions of UiTdatabank</a> and I declare that I have the necessary rights or permissions to distribute the image."
-msgstr "Ich stimme den <a href="http://www.uitdatabank.be/uitportal/legal.aspx">Allgemeinen Bedingungen</a> zu und erkläre, dass ich über die erforderlichen Rechte oder Genehmigungen verfüge, um das Bild verbreiten zu dürfen."
-
-#: 
-msgid "Price"
-msgstr "Preis"
-
-#: 
-msgid "Free event"
-msgstr "Gratis-Aktivität"
-
-#: 
-msgid "+ add conditions & discounts"
-msgstr "+ Bedingungen & Rabatte hinzufügen"
-
-#: 
-msgid "Price conditions & discounts"
-msgstr "Preis Bedingungen & Rabatte"
-
-#: 
-msgid "Organizer"
-msgstr "Organisator"
-
-#: 
-msgid "Organizer not found, add organizer"
-msgstr "Organisator nicht gefunden, Organisator hinzufügen"
-
-#: 
-msgid "Name new organizer"
-msgstr "Neuen Organisator benennen"
-
-#: 
-msgid "Age"
-msgstr "Alter"
-
-#: 
-msgid "For everyone"
-msgstr "Für jedermann"
-
-#: 
-msgid "For children (between 1 and 12 years)"
-msgstr "Für Kinder (zwischen 1 und 12 Jahren)"
-
-#: 
-msgid "For youth (between 12 and 18 years)"
-msgstr "Für Jugendliche (zwischen 12 und 18 Jahren)"
-
-#: 
-msgid "For adults (18+)"
-msgstr "Für Erwachsene (ab 18)"
-
-#: 
-msgid "Suitable for ages from"
-msgstr "Geeignet für Alter ab"
-
-#: 
-msgid "Activities for children will get the 'Fly' label"
-msgstr "Aktivitäten für Kinder erhalten das „Fly“-Zeichen"
-
-#: 
-msgid "Contact"
-msgstr "Ansprechpartner"
-
-#: 
-msgid "+ add contact option"
-msgstr "+ Kontaktmöglichkeit hinzufügen"
-
-#: 
-msgid "Performers"
-msgstr "Künstler"
-
-#: 
-msgid "+ add another performer"
-msgstr "+ weiteren Künstler hinzufügen"
-
-#: 
-msgid "Language"
-msgstr "Sprache"
-
-#: 
-msgid "+ add more language info"
-msgstr "+ mehr Sprachinformationen hinzufügen"
-
-#: 
-msgid "Access"
-msgstr "Zugriff"
-
-#: 
-msgid "Open for everyone"
-msgstr "Zugänglich für alle"
-
-#: 
-msgid "Only for members"
-msgstr "Nur für Mitglieder"
-
-#: 
-msgid "Translations"
-msgstr "Übersetzungen"
-
-#: 
-msgid "Dutch"
-msgstr "Niederländisch"
-
-#: 
-msgid "English"
-msgstr "Englisch"
-
-#: 
-msgid "French"
-msgstr "Französisch"
-
-#: 
-msgid "German"
-msgstr "Deutsch"
-
-#: 
-msgid "Publication date"
-msgstr "Veröffentlichungsdatum"
-
-#: 
-msgid "Save"
-msgstr "Speichern"
-
-#: 
-msgid "Start time"
-msgstr "Uhrzeit Anfang"
-
-#: 
-msgid "End time"
-msgstr "Uhrzeit Ende"
-
-#: 
-msgid "Spoken"
-msgstr "Originalton"
-
-#: 
-msgid "Dubbed"
-msgstr "Synchronisiert"
-
-#: 
-msgid "Subtitled"
-msgstr "Untertitelt"
-
-#: 
-msgid "in"
-msgstr "in"
-
-#: 
-msgid "Contact"
-msgstr "Kontakt"
-
-#: 
-msgid "Input"
-msgstr "Input"
-
-#: 
-msgid "Performer"
-msgstr "Künstler"
-
-#: 
-msgid "Role"
-msgstr "Rolle"
-
-#: 
-msgid "Link"
-msgstr "Link"
-
-#: 
-msgid "for reservation"
-msgstr "Reservierung erforderlich"
-
-#: 
+#: culturefeed_date_control/form/opening_times.inc:60;67
 msgid "Format"
 msgstr "Format"
 
-#: 
-msgid "Please fill in correct age"
-msgstr "Bitte das richtige Alter eingeben"
+#: culturefeed_date_control/form/period.inc:82
+msgid "Start date"
+msgstr "Anfangsdatum"
 
-#: 
-msgid "Please fill in correct date and time"
-msgstr "Bitte das richtige Datum und die richtige Uhrzeit eingeben"
+#: culturefeed_date_control/form/period.inc:88
+msgid "+ add end date"
+msgstr ""
 
-#: 
-msgid "A date is required."
-msgstr "Ein Datum ist erforderlich."
+#: culturefeed_date_control/form/period.inc:99
+msgid "End date"
+msgstr "Enddatum"
 
-#: 
-msgid "Date field is invalid. The end date is earlier than the beginning date."
-msgstr "Datumsfeld ungültig. Das Enddatum liegt vor dem Anfangsdatum."
+#: culturefeed_date_control/form/period.inc:106
+msgid "- remove end date"
+msgstr ""
 
-#: 
-msgid "Date field is invalid. The end time is earlier than the beginning time."
-msgstr "Datumsfeld ungültig. Die Uhrzeit des Endes liegt vor der Uhrzeit des Anfangs."
+#: culturefeed_date_control/form/timestamps.inc:92
+msgid "×"
+msgstr ""
 
-#: 
-msgid "Please fill in correct date"
-msgstr "Bitte das richtige Datum eingeben."
+#: culturefeed_date_control/form/timestamps.inc:131
+msgid "- remove end time"
+msgstr ""
 
-#: 
-msgid "Please agree to the general conditions of UiTdatabank and declare that you have the necessary rights or permissions to distribute the image through UiTdatabank."
-msgstr "Bitte stimmen Sie sich mit den Allgemeinen Bedingungen der UiTDatenbank einverstanden und erklären Sie, dass Sie über die erforderlichen Rechte oder Genehmigungen verfügen, um das Bild über die UiTDatenbank verbreiten zu dürfen."
+#: culturefeed_date_control/form/timestamps.inc:136
+msgid "+ add end time"
+msgstr ""
 
-#: 
-msgid "A category is required."
-msgstr "Eine Kategorie ist erforderlich."
-
-#: 
-msgid "A title is required for a custom location"
-msgstr "Für einen benutzerdefinierten Veranstaltungsort ist ein Titel erforderlich"
-
-#: 
-msgid "A zip code is required for a custom location"
-msgstr "Für einen benutzerdefinierten Veranstaltungsort ist eine Postleitzahl erforderlich"
-
-#: 
-msgid "A city is required for a custom location"
-msgstr "Für einen benutzerdefinierten Veranstaltungsort ist eine Stadt/ein Ort erforderlich"
-
-#: 
-msgid "A location is required."
-msgstr "Ein Veranstaltungsort ist erforderlich."
-
-#: 
-msgid "We could not validate the location"
-msgstr "Wir konnten den Veranstaltungsort nicht validieren"
-
-#: 
-msgid "Not a valid URL"
-msgstr "Keine gültige URL"
-
-#: 
-msgid "We could not validate the organizer"
-msgstr "Wir konnten die Organisator nicht validieren"
-
-#: 
-msgid "Not a valid email address"
-msgstr "Keine gültige E-Mail-Adresse"
-
-#: 
-msgid "Order tickets"
-msgstr "Karten bestellen"
-
-#: 
-msgid "An error occurred while saving the event"
-msgstr "Beim Speichern des Events ist ein Fehler aufgetreten"
-
-#: 
-msgid "Event successfully updated"
-msgstr "Event erfolgreich aktualisiert"
-
-#: 
-msgid "Click here to update"
-msgstr "Zum Aktualisieren hier klicken"
-
-#: 
-msgid "Are you sure you want to delete the event?"
-msgstr "Sind Sie sicher, dass Sie das Event löschen möchten?"
-
-#: 
-msgid "This action cannot be undone"
-msgstr "Dieser Befehl kann nicht rückgängig gemacht werden."
-
-#: 
-msgid "Delete"
-msgstr "Löschen"
-
-#: 
-msgid "Cancel"
-msgstr "Abbrechen"
-
-#: 
-msgid "Event successfully deleted"
-msgstr "Event erfolgreich gelöscht"
-
-#: 
-msgid "An error occurred while deleting the event"
-msgstr "Beim Löschen des Events ist ein Fehler aufgetreten"
-
-#: 
-msgid "Seperate multiple tags by ;"
-msgstr "Mehrere Tags durch ein Semikolon (;) trennen"
-
-#: 
-msgid "Submit"
-msgstr "Hinzufügen"
-
-#: 
-msgid "Tag @tag is not permitted because it's already a custom tag."
-msgstr "Das Tag @tag ist unzulässig, weil es bereits ein benutzerdefiniertes Tag ist."
-
-#: 
-msgid "Autocomplete popup"
-msgstr "Pop-up-Menü zum automatischen Ausfüllen"
-
-#: 
+#: culturefeed_date_control/theme/theme.inc:64
 msgid "open"
 msgstr "geöffnet"
 
-#: 
+#: culturefeed_date_control/theme/theme.inc:64
 msgid "from"
 msgstr "von"
 
-#: 
+#: culturefeed_date_control/theme/theme.inc:64
 msgid "to"
 msgstr "bis"
 
-#: 
+#: includes/culturefeed_entry_ui.admin.inc:21
+msgid "Preferred language"
+msgstr "Sprachpräferenz"
+
+#: includes/culturefeed_entry_ui.admin.inc:23
+msgid "Use the preferred language of the UiTID user, with the Drupal UI language as fallback"
+msgstr ""
+"Die bevorzugte Sprache des UiTID-Users verwenden, wobei notfalls auf "
+"die Drupal-UI-Sprache zurückgegriffen wird"
+
+#: includes/culturefeed_entry_ui.admin.inc:30
+msgid "Custom options on the /tags page"
+msgstr ""
+
+#: includes/culturefeed_entry_ui.admin.inc:32
+msgid "Custom tags specific for this site. Use a new line for each tag."
+msgstr ""
+"Benutzerdefinierte Tags speziell für diese Webseite. Neue Zeile für "
+"jedes Tag verwenden."
+
+#: includes/culturefeed_entry_ui.admin.inc:37
+msgid "Custom tags to push to entry API"
+msgstr ""
+
+#: includes/culturefeed_entry_ui.admin.inc:39
+msgid "Tags pushed under the hood to Entry API. Use a new line for each tag."
+msgstr ""
+
+#: includes/culturefeed_entry_ui.pages.inc:374;1220;1251;1282;1313
+msgid "Event title"
+msgstr "Titel"
+
+#: includes/culturefeed_entry_ui.pages.inc:422
+msgid "Concerts"
+msgstr "Konzerte"
+
+#: includes/culturefeed_entry_ui.pages.inc:443
+msgid "Dance"
+msgstr "Tanz"
+
+#: includes/culturefeed_entry_ui.pages.inc:464
+msgid "Film"
+msgstr "Film"
+
+#: includes/culturefeed_entry_ui.pages.inc:488
+msgid "Theatre"
+msgstr "Theater"
+
+#: includes/culturefeed_entry_ui.pages.inc:510
+msgid "Sport"
+msgstr "Sport"
+
+#: includes/culturefeed_entry_ui.pages.inc:545
+msgid "Location"
+msgstr "Standort"
+
+#: includes/culturefeed_entry_ui.pages.inc:578
+msgid "Location not found, add location"
+msgstr "Veranstaltungsort nicht gefunden, Veranstaltungsort hinzufügen"
+
+#: includes/culturefeed_entry_ui.pages.inc:599
+msgid "Location Title"
+msgstr "Bezeichnung Veranstaltungsort"
+
+#: includes/culturefeed_entry_ui.pages.inc:614
+msgid "Country"
+msgstr "Land"
+
+#: includes/culturefeed_entry_ui.pages.inc:627
+msgid "ZIP Code"
+msgstr "Postleitzahl"
+
+#: includes/culturefeed_entry_ui.pages.inc:640
+msgid "City"
+msgstr "Stadt oder Ort"
+
+#: includes/culturefeed_entry_ui.pages.inc:649
+msgid "Street"
+msgstr "Straße"
+
+#: includes/culturefeed_entry_ui.pages.inc:649
+msgid "Street and House Number"
+msgstr ""
+
+#: includes/culturefeed_entry_ui.pages.inc:657
+msgid "House Number"
+msgstr "Hausnummer"
+
+#: includes/culturefeed_entry_ui.pages.inc:688
+msgid "Extra info"
+msgstr "Zusatzinfo"
+
+#: includes/culturefeed_entry_ui.pages.inc:696;704;722
+msgid "Description"
+msgstr "Beschreibung"
+
+#: includes/culturefeed_entry_ui.pages.inc:709;1226;1257;1288;1319
+msgid "Short description"
+msgstr "Kurzbeschreibung"
+
+#: includes/culturefeed_entry_ui.pages.inc:712
+msgid "Maximum 400 characters"
+msgstr ""
+
+#: includes/culturefeed_entry_ui.pages.inc:730
+msgid "+ add long description"
+msgstr "+ ausführliche Beschreibung hinzufügen"
+
+#: includes/culturefeed_entry_ui.pages.inc:745;1233;1264;1295;1326
+msgid "Long description"
+msgstr "Ausführliche Beschreibung"
+
+#: includes/culturefeed_entry_ui.pages.inc:756
+msgid "Add multiple tags seperated by a \";\""
+msgstr "Mehrere Tags getrennt durch ein Semikolon (;) hinzufügen"
+
+#: includes/culturefeed_entry_ui.pages.inc:766
+msgid "Links"
+msgstr "Links"
+
+#: includes/culturefeed_entry_ui.pages.inc:797
+msgid "+ add another link"
+msgstr "+ weiteren Link hinzufügen"
+
+#: includes/culturefeed_entry_ui.pages.inc:814
+msgid "Image"
+msgstr "Bild"
+
+#: includes/culturefeed_entry_ui.pages.inc:820
+msgid "Image upload"
+msgstr "Bild hinaufladen"
+
+#: includes/culturefeed_entry_ui.pages.inc:822
+msgid "Allowed extensions: gif png jpg jpeg"
+msgstr "Zugelassene Dateierweiterungen: gif png jpg jpeg"
+
+#: includes/culturefeed_entry_ui.pages.inc:847
+msgid "I agree to the <a href=\"http://www.uitdatabank.be/uitportal/legal.aspx\">terms & conditions</a> and I declare that I have the necessary rights or permissions to distribute the image."
+msgstr ""
+
+#: includes/culturefeed_entry_ui.pages.inc:854;859;891
+msgid "Price"
+msgstr "Preis"
+
+#: includes/culturefeed_entry_ui.pages.inc:874
+msgid "Free event"
+msgstr "Gratis-Aktivität"
+
+#: includes/culturefeed_entry_ui.pages.inc:898
+msgid "+ add conditions & discounts"
+msgstr "+ Bedingungen & Rabatte hinzufügen"
+
+#: includes/culturefeed_entry_ui.pages.inc:925
+msgid "Price conditions & discounts"
+msgstr "Preis Bedingungen & Rabatte"
+
+#: includes/culturefeed_entry_ui.pages.inc:954
+msgid "Organizer"
+msgstr "Organisator"
+
+#: includes/culturefeed_entry_ui.pages.inc:978
+msgid "Organizer not found, add organizer"
+msgstr "Organisator nicht gefunden, Organisator hinzufügen"
+
+#: includes/culturefeed_entry_ui.pages.inc:995
+msgid "Name new organizer"
+msgstr "Neuen Organisator benennen"
+
+#: includes/culturefeed_entry_ui.pages.inc:1002
+msgid "Age"
+msgstr "Alter"
+
+#: includes/culturefeed_entry_ui.pages.inc:1004
+msgid "For everyone"
+msgstr "Für jedermann"
+
+#: includes/culturefeed_entry_ui.pages.inc:1005
+msgid "For children (between 1 and 12 years)"
+msgstr "Für Kinder (zwischen 1 und 12 Jahren)"
+
+#: includes/culturefeed_entry_ui.pages.inc:1006
+msgid "For youth (between 12 and 18 years)"
+msgstr "Für Jugendliche (zwischen 12 und 18 Jahren)"
+
+#: includes/culturefeed_entry_ui.pages.inc:1007
+msgid "For adults (18+)"
+msgstr "Für Erwachsene (ab 18)"
+
+#: includes/culturefeed_entry_ui.pages.inc:1013
+msgid "Suitable for ages from"
+msgstr "Geeignet für Alter ab"
+
+#: includes/culturefeed_entry_ui.pages.inc:1036
+msgid "Activities for children will get the 'Fly' label"
+msgstr "Aktivitäten für Kinder erhalten das „Fly“-Zeichen"
+
+#: includes/culturefeed_entry_ui.pages.inc:1047;1491
+msgid "Contact"
+msgstr "Kontakt"
+
+#: includes/culturefeed_entry_ui.pages.inc:1080
+msgid "+ add contact option"
+msgstr "+ Kontaktmöglichkeit hinzufügen"
+
+#: includes/culturefeed_entry_ui.pages.inc:1094
+msgid "Performers"
+msgstr "Künstler"
+
+#: includes/culturefeed_entry_ui.pages.inc:1129
+msgid "+ add another performer"
+msgstr "+ weiteren Künstler hinzufügen"
+
+#: includes/culturefeed_entry_ui.pages.inc:1143;1445
+msgid "Language"
+msgstr "Sprache"
+
+#: includes/culturefeed_entry_ui.pages.inc:1176
+msgid "+ add more language info"
+msgstr "+ mehr Sprachinformationen hinzufügen"
+
+#: includes/culturefeed_entry_ui.pages.inc:1191
+msgid "Access"
+msgstr "Zugriff"
+
+#: includes/culturefeed_entry_ui.pages.inc:1197
+msgid "Open for everyone"
+msgstr "Zugänglich für alle"
+
+#: includes/culturefeed_entry_ui.pages.inc:1197
+msgid "Only for members"
+msgstr "Nur für Mitglieder"
+
+#: includes/culturefeed_entry_ui.pages.inc:1204
+msgid "Translations"
+msgstr "Übersetzungen"
+
+#: includes/culturefeed_entry_ui.pages.inc:1212;1462
+msgid "Dutch"
+msgstr "Niederländisch"
+
+#: includes/culturefeed_entry_ui.pages.inc:1243;1460
+msgid "English"
+msgstr "Englisch"
+
+#: includes/culturefeed_entry_ui.pages.inc:1274;1464
+msgid "French"
+msgstr "Französisch"
+
+#: includes/culturefeed_entry_ui.pages.inc:1305;1463
+msgid "German"
+msgstr "Deutsch"
+
+#: includes/culturefeed_entry_ui.pages.inc:1334
+msgid "Publication date"
+msgstr "Veröffentlichungsdatum"
+
+#: includes/culturefeed_entry_ui.pages.inc:1358
+msgid "Save"
+msgstr "Speichern"
+
+#: includes/culturefeed_entry_ui.pages.inc:1448
+msgid "Spoken"
+msgstr "Originalton"
+
+#: includes/culturefeed_entry_ui.pages.inc:1449
+msgid "Dubbed"
+msgstr "Synchronisiert"
+
+#: includes/culturefeed_entry_ui.pages.inc:1450
+msgid "Subtitled"
+msgstr "Untertitelt"
+
+#: includes/culturefeed_entry_ui.pages.inc:1457
+msgid "in"
+msgstr "in"
+
+#: includes/culturefeed_entry_ui.pages.inc:1500
+msgid "Input"
+msgstr "Input"
+
+#: includes/culturefeed_entry_ui.pages.inc:1516
+msgid "Performer"
+msgstr "Künstler"
+
+#: includes/culturefeed_entry_ui.pages.inc:1524
+msgid "Role"
+msgstr "Rolle"
+
+#: includes/culturefeed_entry_ui.pages.inc:1539
+msgid "Link"
+msgstr "Link"
+
+#: includes/culturefeed_entry_ui.pages.inc:1546
+msgid "for reservation"
+msgstr "Reservierung erforderlich"
+
+#: includes/culturefeed_entry_ui.pages.inc:1562
+msgid "Please fill in correct age"
+msgstr "Bitte das richtige Alter eingeben"
+
+#: includes/culturefeed_entry_ui.pages.inc:1579;1609
+msgid "Please fill in correct date and time"
+msgstr "Bitte das richtige Datum und die richtige Uhrzeit eingeben"
+
+#: includes/culturefeed_entry_ui.pages.inc:1586
+msgid "Date field is invalid. The end date is earlier than the beginning date."
+msgstr "Datumsfeld ungültig. Das Enddatum liegt vor dem Anfangsdatum."
+
+#: includes/culturefeed_entry_ui.pages.inc:1616
+msgid "Date field is invalid. The end time is earlier than the beginning time."
+msgstr ""
+"Datumsfeld ungültig. Die Uhrzeit des Endes liegt vor der Uhrzeit des "
+"Anfangs."
+
+#: includes/culturefeed_entry_ui.pages.inc:1650;1657
+msgid "Please fill in correct time."
+msgstr ""
+
+#: includes/culturefeed_entry_ui.pages.inc:1672
+msgid "Please agree to the general conditions of UiTdatabank and declare that you have the necessary rights or permissions to distribute the image through UiTdatabank."
+msgstr ""
+"Bitte stimmen Sie sich mit den Allgemeinen Bedingungen der "
+"UiTDatenbank einverstanden und erklären Sie, dass Sie über die "
+"erforderlichen Rechte oder Genehmigungen verfügen, um das Bild über "
+"die UiTDatenbank verbreiten zu dürfen."
+
+#: includes/culturefeed_entry_ui.pages.inc:1677
+msgid "A category is required."
+msgstr "Eine Kategorie ist erforderlich."
+
+#: includes/culturefeed_entry_ui.pages.inc:1683
+msgid "A title is required for a custom location"
+msgstr ""
+"Für einen benutzerdefinierten Veranstaltungsort ist ein Titel "
+"erforderlich"
+
+#: includes/culturefeed_entry_ui.pages.inc:1691
+msgid "A city is required for a custom location"
+msgstr ""
+"Für einen benutzerdefinierten Veranstaltungsort ist eine Stadt/ein "
+"Ort erforderlich"
+
+#: includes/culturefeed_entry_ui.pages.inc:1698
+msgid "A location is required."
+msgstr "Ein Veranstaltungsort ist erforderlich."
+
+#: includes/culturefeed_entry_ui.pages.inc:1703;1707
+msgid "We could not validate the location"
+msgstr "Wir konnten den Veranstaltungsort nicht validieren"
+
+#: includes/culturefeed_entry_ui.pages.inc:1746
+msgid "Not a valid URL"
+msgstr "Keine gültige URL"
+
+#: includes/culturefeed_entry_ui.pages.inc:1758;1762
+msgid "We could not validate the organizer"
+msgstr "Wir konnten die Organisator nicht validieren"
+
+#: includes/culturefeed_entry_ui.pages.inc:1778
+msgid "Not a valid email address"
+msgstr "Keine gültige E-Mail-Adresse"
+
+#: includes/culturefeed_entry_ui.pages.inc:1797
+msgid "If you translate something, you should also translate the title."
+msgstr ""
+
+#: includes/culturefeed_entry_ui.pages.inc:1935
+msgid "Order tickets"
+msgstr "Karten bestellen"
+
+#: includes/culturefeed_entry_ui.pages.inc:2313
+msgid "An error occurred while saving the event"
+msgstr "Beim Speichern des Events ist ein Fehler aufgetreten"
+
+#: includes/culturefeed_entry_ui.pages.inc:2414
+msgid "Saving the event"
+msgstr ""
+
+#: includes/culturefeed_entry_ui.pages.inc:2421
+msgid "Initializing."
+msgstr ""
+
+#: includes/culturefeed_entry_ui.pages.inc:2422
+msgid "Completed @current of @total."
+msgstr ""
+
+#: includes/culturefeed_entry_ui.pages.inc:2440
+msgid "Are you sure you want to delete the event?"
+msgstr "Sind Sie sicher, dass Sie das Event löschen möchten?"
+
+#: includes/culturefeed_entry_ui.pages.inc:2442
+msgid "This action cannot be undone"
+msgstr "Dieser Befehl kann nicht rückgängig gemacht werden."
+
+#: includes/culturefeed_entry_ui.pages.inc:2443 views/handlers/views_handler_field_cdb_item_operations.inc:31
+msgid "Delete"
+msgstr "Löschen"
+
+#: includes/culturefeed_entry_ui.pages.inc:2444
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: includes/culturefeed_entry_ui.pages.inc:2456
+msgid "Event successfully deleted"
+msgstr "Event erfolgreich gelöscht"
+
+#: includes/culturefeed_entry_ui.pages.inc:2460
+msgid "An error occurred while deleting the event"
+msgstr "Beim Löschen des Events ist ein Fehler aufgetreten"
+
+#: includes/culturefeed_entry_ui.pages.inc:2501
+msgid "Custom tags"
+msgstr "Benutzerdefinierte Tags"
+
+#: includes/culturefeed_entry_ui.pages.inc:2510
+msgid "Seperate multiple tags by ;"
+msgstr "Mehrere Tags durch ein Semikolon (;) trennen"
+
+#: includes/culturefeed_entry_ui.pages.inc:2515 views/culturefeed_entry_ui.views_default.inc:31;160
+msgid "Submit"
+msgstr "Hinzufügen"
+
+#: includes/culturefeed_entry_ui.pages.inc:2530
+msgid "Tag @tag is not permitted because it's already a custom tag."
+msgstr ""
+"Das Tag @tag ist unzulässig, weil es bereits ein benutzerdefiniertes "
+"Tag ist."
+
+#: includes/culturefeed_entry_ui.pages.inc:2577
+msgid "The tags were adjusted. However, it takes half an hour before these changes on all channels (including Uitinvlaanderen) will be. Available under the \"View\" tab"
+msgstr ""
+
+#: includes/culturefeed_entry_ui.pages.inc:2582
+msgid "You tried to add a tag that should not be added by anyone. If you still wish to add this or have other questions about this, please email to \"vragen@uitdatabank.be\"."
+msgstr ""
+
+#: includes/culturefeed_entry_ui.pages.inc:2585
+msgid "Error occured while saving the tags"
+msgstr ""
+
+#: includes/culturefeed_entry_ui.pages.inc:2659
+msgid "The event %title has been created."
+msgstr ""
+
+#: includes/culturefeed_entry_ui.pages.inc:2660
+msgid "The event %title has been updated."
+msgstr ""
+
+#: includes/culturefeed_entry_ui.pages.inc:2301;2306
+msgid "culturefeed_entry_ui"
+msgstr ""
+
+#: includes/culturefeed_entry_ui.pages.inc:2301
+msgid "Event %eventid updated."
+msgstr ""
+
+#: includes/culturefeed_entry_ui.pages.inc:2306
+msgid "Event %eventid created."
+msgstr ""
+
+#: js/bootstrap_autocomplete_override.js:0 js/culturefeed_entry_ui.js:0
+msgid "Autocomplete popup"
+msgstr "Pop-up-Menü zum automatischen Ausfüllen"
+
+#: views/culturefeed_entry_ui.views.inc:13
 msgid "Operations"
 msgstr "Tätigkeiten"
 
-#: 
+#: views/culturefeed_entry_ui.views.inc:14
 msgid "Links to operations that can be performed"
 msgstr "Links zu Tätigkeiten, die ausgeführt werden können"
 
-#: 
+#: views/culturefeed_entry_ui.views.inc:20
 msgid "Create event"
 msgstr "Event anlegen"
 
-#: 
+#: views/culturefeed_entry_ui.views.inc:21
 msgid "Link to create event"
 msgstr "Link zum Anlegen eines Events"
 
-#: 
-msgid "Master"
-msgstr "Master"
+#: views/culturefeed_entry_ui.views_default.inc:25
+msgid "More"
+msgstr "Mehr"
 
-#: 
-msgid "Events created by me"
-msgstr "Von mir angelegte Events"
-
-#: 
-msgid "more"
-msgstr "mehr"
-
-#: 
-msgid "Apply"
-msgstr "Anwenden"
-
-#: 
+#: views/culturefeed_entry_ui.views_default.inc:32;161
 msgid "Reset"
 msgstr "Zurücksetzen"
 
-#: 
-msgid "Sort by"
-msgstr "Sortieren nach"
+#: views/culturefeed_entry_ui.views_default.inc:33;162
+msgid "Sort on"
+msgstr ""
 
-#: 
-msgid "Asc"
+#: views/culturefeed_entry_ui.views_default.inc:34;163
+msgid "Ascending"
 msgstr "Aufsteigend"
 
-#: 
-msgid "Desc"
+#: views/culturefeed_entry_ui.views_default.inc:35;164
+msgid "Descending"
 msgstr "Absteigend"
 
-#: 
+#: views/culturefeed_entry_ui.views_default.inc:157
+msgid "Master"
+msgstr "Master"
+
+#: views/culturefeed_entry_ui.views_default.inc:158
+msgid "Events created by me"
+msgstr "Von mir angelegte Events"
+
+#: views/culturefeed_entry_ui.views_default.inc:159
+msgid "more"
+msgstr "mehr"
+
+#: views/culturefeed_entry_ui.views_default.inc:165
 msgid "Notification that no results were found"
 msgstr "Hinweis, das kein Ergebnis gefunden wurde"
 
-#: 
+#: views/culturefeed_entry_ui.views_default.inc:166
 msgid "Unable to find any events created by you."
 msgstr "Es konnte kein von Ihnen angelegtes Event gefunden werden."
 
-#: 
+#: views/culturefeed_entry_ui.views_default.inc:167
 msgid "Last updated"
 msgstr "Letzte Aktualisierung"
 
-#: 
+#: views/culturefeed_entry_ui.views_default.inc:168
+msgid "Created by current user"
+msgstr ""
+
+#: views/culturefeed_entry_ui.views_default.inc:169
 msgid "Block"
 msgstr "Sperren"
 
-#: 
-msgid "Add event"
-msgstr "Event hinzufügen"
+#: views/culturefeed_entry_ui.views_default.inc:170
+msgid "Page"
+msgstr "Seite"
+
+#: views/culturefeed_entry_ui.views_default.inc:172
+msgid "Items per page"
+msgstr ""
+
+#: views/culturefeed_entry_ui.views_default.inc:173
+msgid "- All -"
+msgstr ""
+
+#: views/culturefeed_entry_ui.views_default.inc:174
+msgid "Start"
+msgstr ""
+
+#: views/culturefeed_entry_ui.views_default.inc:175
+msgid "« first"
+msgstr ""
+
+#: views/culturefeed_entry_ui.views_default.inc:176
+msgid "‹ previous"
+msgstr ""
+
+#: views/culturefeed_entry_ui.views_default.inc:177
+msgid "next ›"
+msgstr ""
+
+#: views/culturefeed_entry_ui.views_default.inc:178
+msgid "last »"
+msgstr ""
+
+#: views/handlers/views_handler_field_cdb_item_operations.inc:47
+msgid "No permission to edit event"
+msgstr ""
 
