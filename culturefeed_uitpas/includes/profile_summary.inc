@@ -51,10 +51,17 @@ function culturefeed_uitpas_profile_summary_get() {
     // Promotions.
     try {
       $query = new CultureFeed_Uitpas_Passholder_Query_SearchPromotionPointsOptions();
-      $query->maxPoints = $passholder->points;
+			$query->maxPoints = $passholder->points;
+			$query->filterOnUserPoints = TRUE;
       $query->cashingPeriodBegin = time();
       $query->sort = CultureFeed_Uitpas_Passholder_Query_SearchPromotionPointsOptions::SORT_POINTS;
-      $query->order = CultureFeed_Uitpas_Passholder_Query_SearchPromotionPointsOptions::ORDER_DESC;
+			if ($passholder->points == 0) {
+				$query->maxPoints = 1;
+				$query->order = CultureFeed_Uitpas_Passholder_Query_SearchPromotionPointsOptions::ORDER_ASC;
+			}
+			else {
+				$query->order = CultureFeed_Uitpas_Passholder_Query_SearchPromotionPointsOptions::ORDER_DESC;
+			}
       $query->max = 4;
       if ($card_system_id) {
         $query->owningCardSystemId = $card_system_id;
@@ -64,6 +71,15 @@ function culturefeed_uitpas_profile_summary_get() {
       if ($result->total) {
         $promotions = $result->objects;
       }
+
+			if ($passholder->points == 0) {
+				foreach ($promotions as $key => $promotion) {
+					if ($promotion->points > 0) {
+						unset($promotions[$key]);
+					}
+				}
+			}
+			dpm($promotions);
     }
     catch (Exception $e) {
       watchdog_exception('culturefeed_uitpas_profile_summary_promotions', $e);
