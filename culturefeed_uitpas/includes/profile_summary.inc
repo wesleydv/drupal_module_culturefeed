@@ -79,7 +79,6 @@ function culturefeed_uitpas_profile_summary_get() {
 					}
 				}
 			}
-			dpm($promotions);
     }
     catch (Exception $e) {
       watchdog_exception('culturefeed_uitpas_profile_summary_promotions', $e);
