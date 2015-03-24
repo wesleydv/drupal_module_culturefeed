@@ -177,6 +177,270 @@ function culturefeed_calendar_theme() {
 
 }
 
+
+/**
+ * Implements hook_block_info().
+ */
+function culturefeed_calendar_block_info() {
+
+  $blocks = array();
+
+  $blocks['calendar-event-types'] = array(
+    'info' => t('Culturefeed calendar: Event types'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+
+  $blocks['calendar-filter-form'] = array(
+    'info' => t('Culturefeed calendar: Filter form'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  return $blocks;
+
+}
+
+/**
+ * Implements hook_block_configure().
+ */
+function culturefeed_calendar_block_configure($delta) {
+
+  $form = array();
+
+  if ($delta == 'calendar-event-types') {
+
+    $visibility_options = array();
+    $query = db_select('culturefeed_search_terms', 'cst');
+    $query->fields('cst', array('tid', 'name'));
+    $query->condition('cst.did', 'eventtype');
+    $query->isNull('cst.p1');
+    $query->condition('language', culturefeed_search_get_preferred_language());
+
+    $result = $query->execute();
+
+    foreach ($result as $row) {
+      // Don't show 'type onbepaald'.
+      if ($row->tid != '0.51.0.0.0') {
+        $visibility_options[$row->tid] = $row->name;
+        $defaults[] = $row->tid;
+      }
+    }
+
+    asort($visibility_options);
+    $form['calendar_facet_event_types'] = array(
+      '#title' => t('Event types as facet item.'),
+      '#description' => t('Select the eventtypes to show as facets.'),
+      '#type' => 'checkboxes',
+      '#options' => $visibility_options,
+      '#default_value' => variable_get('calendar_facet_event_types', $defaults),
+    );
+
+  }
+
+  if ($delta == 'calendar-filter-form') {
+
+    $config_label = 'culturefeed-calendar-filter-options';
+    $display_label = 'culturefeed-calendar-filter-display-options';
+    $operator_label = 'culturefeed-calendar-filter-operator';
+    $config_variable = str_replace('-', '_', $config_label);
+    $display_variable = str_replace('-', '_', $display_label);
+    $operator_variable = str_replace('-', '_', $operator_label);
+
+    $form[$display_label] = array(
+      '#title' => t('How to display the filters'),
+      '#description' => t('Select how to display the search filters'),
+      '#type' => 'radios',
+      '#options' => array(
+        'links' => t('As links'),
+        'checkboxes' => t('As checkboxes with submit button'),
+      ),
+      '#default_value' => variable_get($display_variable, 'links'),
+    );
+    $form[$operator_label] = array(
+      '#title' => t('How to apply filters on the query'),
+      '#description' => t('Select the operator for the search filters'),
+      '#type' => 'radios',
+      '#options' => array(
+        'and' => t('Use AND-operator'),
+        'or' => t('Use OR-operator'),
+      ),
+      '#default_value' => variable_get($operator_variable, 'or'),
+    );
+
+    $options = variable_get($config_variable, culturefeed_search_ui_default_filter_options());
+    $form[$config_label] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Possible filters'),
+      '#theme' => 'culturefeed_search_ui_admin_filter_form_options',
+      '#description' => t('<p>
+        Define the different filter options you want. Filters that are not exposed are not shown, but will work if added to the querystring<br />Example:<ul>
+        <li>Human name: No courses and workshops</li>
+        <li>Query string: no-courses-workshops</li>
+        <li>Filter query for API: !category_id:0.3.1.0.0</li>
+      </p>'),
+      '#tree' => TRUE,
+    );
+
+    for ($i = 0; $i < 20; $i++) {
+      $form[$config_label][$i]['exposed'] = array(
+        '#title' => t('Exposed'),
+        '#type' => 'checkbox',
+        '#default_value' => isset($options[$i]['exposed']) ? $options[$i]['exposed'] : TRUE
+      );
+      $form[$config_label][$i]['title'] = array(
+        '#title' => t('Human name'),
+        '#type' => 'textfield',
+        '#default_value' => isset($options[$i]['title']) ? $options[$i]['title'] : ''
+      );
+      $form[$config_label][$i]['query-string'] = array(
+        '#title' => t('Querystring for url'),
+        '#type' => 'textfield',
+        '#default_value' => isset($options[$i]['query-string']) ? $options[$i]['query-string'] : ''
+      );
+      $form[$config_label][$i]['api-filter-query'] = array(
+        '#title' => t('Filterquery for API'),
+        '#type' => 'textfield',
+        '#default_value' => isset($options[$i]['api-filter-query']) ? $options[$i]['api-filter-query'] : '',
+        '#maxlength' => 255
+      );
+    }
+  }
+
+  return $form;
+}
+
+/**
+ * Implements hook_block_save().
+ */
+function culturefeed_calendar_block_save($delta, $edit) {
+
+  if ($delta == 'calendar-event-types') {
+    variable_set('calendar_facet_event_types', array_filter($edit['calendar_facet_event_types']));
+  }
+
+  if ($delta == 'calendar-filter-form') {
+    if (isset($edit['culturefeed-calendar-filter-operator'])) {
+      variable_set('culturefeed_calendar_filter_operator', $edit['culturefeed-calendar-filter-operator']);
+    }
+
+    if (isset($edit['culturefeed-calendar-filter-options'])) {
+      $options = array();
+      foreach ($edit['culturefeed-calendar-filter-options'] as $option) {
+        if (!empty($option['title']) && !empty($option['query-string']) && !empty($option['api-filter-query'])) {
+          $options[] = $option;
+        }
+      }
+      variable_set('culturefeed_calendar_filter_options', $options);
+    }
+
+    if (isset($edit['culturefeed-calendar-filter-display-options'])) {
+      variable_set('culturefeed_calendar_filter_display_options', $edit['culturefeed-calendar-filter-display-options']);
+    }
+
+  }
+
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function culturefeed_calendar_block_view($delta) {
+
+  module_load_include('inc', 'culturefeed_calendar', 'includes/blocks');
+  $block = array();
+
+  switch ($delta) {
+
+    case  'calendar-event-types':
+      return culturefeed_calendar_block_event_types();
+
+    case  'calendar-filter-form':
+
+      // Don't show block if there are no search results.
+      $search_result = culturefeed_get_search_result();
+      if (!$search_result instanceof \Cultuurnet\Search\SearchResult || $search_result->getTotalCount() == 0) {
+        return;
+      }
+
+      $block = culturefeed_calendar_block_filter_form($search_result);
+
+      break;
+  }
+
+  return $block;
+
+}
+
+/**
+ * Implements hook_culturefeed_search_page_info().
+ */
+function culturefeed_calendar_culturefeed_search_page_info() {
+  return array(
+    'mycalendar' => array(
+      'id' => 'mycalendar',
+      'path' => 'culturefeed/calendar',
+      'page_title' => t('My Calendar'),
+      'search_title' => t('My Calendar'),
+      'sort_default' => 1, // key for date
+      'sort_options' => array(
+        array(
+          'value' => 'relevancy',
+          'label' => t('Relevance'),
+          'exposed' => TRUE,
+          'query' => '',
+          'default' => TRUE,
+        ),
+        array(
+          'value' => 'date',
+          'label' => t('Date'),
+          'exposed' => TRUE,
+          'query' => 'permanent asc,availableto asc,weight desc',
+        ),
+        array(
+          'value' => 'agefrom',
+          'label' => t('Age'),
+          'exposed' => TRUE,
+          'query' => 'agefrom asc',
+        ),
+        array(
+          'value' => 'likes',
+          'label' => t('Popularity'),
+          'exposed' => TRUE,
+          'query' => 'like_count desc',
+        ),
+        array(
+          'value' => 'comments',
+          'label' => t('Reactions'),
+          'exposed' => FALSE,
+          'query' => 'comment_count desc',
+        ),
+        array(
+          'value' => 'importance',
+          'label' => t('Importance'),
+          'exposed' => FALSE,
+          'query' => 'weight desc',
+        ),
+      ),
+      'class_name' => 'CultureFeedMyCalendarPage',
+      'weight' => -20,
+    ),
+  );
+}
+
+/**
+ * Implements hook_culturefeed_search_page_query_alter().
+ */
+function culturefeed_calendar_culturefeed_search_page_query_alter(CultureFeedSearchPageInterface $culturefeedSearchPage) {
+
+  // Only add the filters if the block is set.
+  if (culturefeed_search_ui_block_is_visible('calendar-filter-form')) {
+    culturefeed_search_ui_page_add_query_filters($culturefeedSearchPage,
+      variable_get('culturefeed_calendar_filter_options', culturefeed_search_ui_default_filter_options()),
+      variable_get('culturefeed_calendar_filter_operator', 'and')
+    );
+  }
+
+}
+
 /**
  * Implements hook_culturefeed_ui_profile_menu().
  */

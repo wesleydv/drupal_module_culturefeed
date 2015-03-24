@@ -16,6 +16,15 @@ function culturefeed_calendar_get_user_activities($use_search = FALSE, $user_id 
     return $activities;
   }
 
+/*
+  //$facetComponent = new Facet\FacetComponent();
+  $facet_component = culturefeed_get_facet_component();
+  if ($facet_component) {
+    $culturefeedSearchPage->addParameter($facet_component->facetField('agefrom'));
+    $culturefeedSearchPage->addParameter($facet_component->facetField('type'));
+  }
+*/
+
   if ($user_id) {
     $activities[$user_id] = culturefeed_calendar_get_culturefeed_user_activities($use_search, $user_id);
   }
