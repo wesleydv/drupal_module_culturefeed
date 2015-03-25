@@ -5,6 +5,7 @@ version = VERSION
 core = 7.x
 
 dependencies[] = culturefeed
+dependencies[] = culturefeed_search_ui
 dependencies[] = date_popup
 
 files[] = lib/Drupal/CultureFeedMyCalendarPage.php
