@@ -11,15 +11,13 @@
  */
 function culturefeed_calendar_preprocess_culturefeed_calendar_page(&$variables) {
 
+  $cf_user = DrupalCultureFeed::getLoggedInUser();
+  $my_calendar = TRUE;
 
   // Check if we need to show the calendar for the logged in user or for another user.
-  if (isset($variables['user_id'])) {
+  if (isset($variables['user_id']) && $cf_user->id != $variables['user_id']) {
     $my_calendar = FALSE;
     $cf_user = DrupalCultureFeed::getUser($variables['user_id']);
-  }
-  else {
-    $my_calendar = TRUE;
-    $cf_user = DrupalCultureFeed::getLoggedInUser();
   }
 
   // Check if another persons calendar is shared.
