@@ -40,6 +40,12 @@ class CultureFeedSearchPage {
   protected $fullPage = TRUE;
 
   /**
+   * The page arguments known by the router.
+   * @var Array
+   */
+  protected $pageArguments = array();
+
+  /**
    * Pager type to render with this page.
    * @var Int
    */
@@ -133,6 +139,21 @@ class CultureFeedSearchPage {
    */
   public function setFullPage($fullPage) {
     $this->fullPage = $fullPage;
+  }
+
+  /**
+   * Gets the page arguments.
+   */
+  public function getPageArguments() {
+    return $this->pageArguments;
+  }
+
+  /**
+   * Sets the page arguments known by the router item.
+   * @param type $arguments
+   */
+  public function setPageArguments($arguments) {
+    $this->pageArguments = $arguments;
   }
 
   /**
@@ -249,7 +270,7 @@ class CultureFeedSearchPage {
     });
 
     $this->query[] = implode(' OR ', $query_parts);
-    
+
     return $this->query;
   }
 
@@ -432,11 +453,11 @@ class CultureFeedSearchPage {
       else {
         $this->parameters[] = new Parameter\Spatial\Distance(CULTUREFEED_SEARCH_DEFAULT_PROXIMITY_RANGE);
       }
-      
+
       if (isset($params['sort']) && $params['sort'] == 'geodist') {
         $this->parameters[] = new Parameter\Sort('geodist()', 'asc');
       }
-      
+
       $this->parameters[] = new Parameter\Spatial\Point($coordinates[0], $coordinates[1]);
       $this->parameters[] = new Parameter\Spatial\SpatialField('physical_gis');
     }

@@ -23,12 +23,6 @@ function culturefeed_calendar_menu() {
 
   $items = array();
 
-  $items['culturefeed/calendar'] = array(
-    'page callback' => 'culturefeed_calendar_page_my_activities',
-    'access arguments' => array('access content'),
-    'file' => 'includes/pages.inc',
-    'type' => MENU_CALLBACK,
-  );
   $items['culturefeed/calendar/share'] = array(
     'title' => t('Share your calendar'),
     'page callback' => 'culturefeed_calendar_page_share_my_calendar',
@@ -39,13 +33,6 @@ function culturefeed_calendar_menu() {
   $items['culturefeed/calendar/settings'] = array(
     'title' => t('Calendar Settings'),
     'page callback' => 'culturefeed_calendar_page_settings',
-    'access arguments' => array('access content'),
-    'file' => 'includes/pages.inc',
-    'type' => MENU_CALLBACK,
-  );
-  $items['culturefeed/calendar/%'] = array(
-    'page callback' => 'culturefeed_calendar_page_user_activities',
-    'page arguments' => array(2),
     'access arguments' => array('access content'),
     'file' => 'includes/pages.inc',
     'type' => MENU_CALLBACK,
@@ -212,7 +199,6 @@ function culturefeed_calendar_block_configure($delta) {
     $query = db_select('culturefeed_search_terms', 'cst');
     $query->fields('cst', array('tid', 'name'));
     $query->condition('cst.did', 'eventtype');
-    $query->isNull('cst.p1');
     $query->condition('language', culturefeed_search_get_preferred_language());
 
     $result = $query->execute();
@@ -375,12 +361,14 @@ function culturefeed_calendar_block_view($delta) {
  */
 function culturefeed_calendar_culturefeed_search_page_info() {
   return array(
-    'mycalendar' => array(
-      'id' => 'mycalendar',
+    'calendar' => array(
+      'id' => 'calendar',
       'path' => 'culturefeed/calendar',
-      'page_title' => t('My Calendar'),
-      'search_title' => t('My Calendar'),
-      'sort_default' => 1, // key for date
+      'page_title' => '',
+      'search_title' => t('Calendar'),
+      'class_name' => 'CultureFeedMyCalendarPage',
+      'weight' => -10,
+      'sort_default' => 0, // key for follow count
       'sort_options' => array(
         array(
           'value' => 'relevancy',
@@ -389,56 +377,28 @@ function culturefeed_calendar_culturefeed_search_page_info() {
           'query' => '',
           'default' => TRUE,
         ),
+      ),
+    ),
+    'mycalendar' => array(
+      'id' => 'mycalendar',
+      'path' => 'culturefeed/calendar/%',
+      'page_title' => t('My Calendar'),
+      'page_arguments' => array(2),
+      'search_title' => t('My Calendar'),
+      'class_name' => 'CultureFeedMyCalendarPage',
+      'weight' => -9,
+      'sort_default' => 0, // key for follow count
+      'sort_options' => array(
         array(
-          'value' => 'date',
-          'label' => t('Date'),
+          'value' => 'relevancy',
+          'label' => t('Relevance'),
           'exposed' => TRUE,
-          'query' => 'permanent asc,availableto asc,weight desc',
-        ),
-        array(
-          'value' => 'agefrom',
-          'label' => t('Age'),
-          'exposed' => TRUE,
-          'query' => 'agefrom asc',
-        ),
-        array(
-          'value' => 'likes',
-          'label' => t('Popularity'),
-          'exposed' => TRUE,
-          'query' => 'like_count desc',
-        ),
-        array(
-          'value' => 'comments',
-          'label' => t('Reactions'),
-          'exposed' => FALSE,
-          'query' => 'comment_count desc',
-        ),
-        array(
-          'value' => 'importance',
-          'label' => t('Importance'),
-          'exposed' => FALSE,
-          'query' => 'weight desc',
+          'query' => '',
+          'default' => TRUE,
         ),
       ),
-      'class_name' => 'CultureFeedMyCalendarPage',
-      'weight' => -20,
     ),
   );
-}
-
-/**
- * Implements hook_culturefeed_search_page_query_alter().
- */
-function culturefeed_calendar_culturefeed_search_page_query_alter(CultureFeedSearchPageInterface $culturefeedSearchPage) {
-
-  // Only add the filters if the block is set.
-  if (culturefeed_search_ui_block_is_visible('calendar-filter-form')) {
-    culturefeed_search_ui_page_add_query_filters($culturefeedSearchPage,
-      variable_get('culturefeed_calendar_filter_options', culturefeed_search_ui_default_filter_options()),
-      variable_get('culturefeed_calendar_filter_operator', 'and')
-    );
-  }
-
 }
 
 /**

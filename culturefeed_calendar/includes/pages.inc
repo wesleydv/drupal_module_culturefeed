@@ -4,27 +4,6 @@
  * Page callbacks for the calendar module.
  */
 
-
-/**
- * Page callback to show the calendar page.
- */
-function culturefeed_calendar_page_my_activities() {
-
-  $activities = culturefeed_calendar_get_user_activities(TRUE);
-  return theme('culturefeed_calendar_page', array('activities' => $activities));
-
-}
-
-/**
- * Page callback to show a users shared calendar page.
- */
-function culturefeed_calendar_page_user_activities($user_id) {
-
-  $activities = culturefeed_calendar_get_user_activities(TRUE, $user_id);
-  return theme('culturefeed_calendar_page', array('activities' => $activities, 'user_id' => $user_id));
-
-}
-
 /**
  * Page callback to show the calendar share page.
  */

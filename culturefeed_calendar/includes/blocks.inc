@@ -9,42 +9,26 @@
  */
 function culturefeed_calendar_block_event_types() {
 
+  // Get the allowed options for the event facet.
   $eventtypes = variable_get('calendar_facet_event_types', array());
   if (empty($eventtypes)) {
     return;
   }
 
-  $query = db_select('culturefeed_search_terms', 'cst');
-  $query->fields('cst', array('tid', 'name', 'slug', 'p1'));
-  $query->condition("cst.did", "eventtype");
-  $query->condition("cst.language", culturefeed_search_get_preferred_language());
-  $db_or = db_or();
-  $db_or->condition('cst.tid', $eventtypes, 'IN');
-  $db_or->condition('cst.p1', $eventtypes, 'IN');
+  $facet_name = 'category_eventtype_id';
+  $domain_id = 'eventtype'; //'eventtype';
+  $allowed_values = $eventtypes;
+  $block_settings = array(
+    'sort' => variable_get('culturefeed_search_sort_facet-eventtype', CULTUREFEED_SEARCH_SORT_ALPHABETICALLY),
+    'highest_level' => 2,
+    'show_subitems' => FALSE,
+    'intersect' => 1,
+  );
+  module_load_include('inc', 'culturefeed_search_ui', 'includes/blocks');
+  $block = culturefeed_search_ui_search_facets_block($facet_name, $domain_id, $allowed_values, $block_settings);
 
-  $query->condition($db_or);
-  $result = $query->execute();
+  return $block;
 
-  $items = array();
-  foreach ($result as $row) {
-    if (empty($row->p1)) {
-      $items[$row->tid]['item'] = $row;
-    }
-    else {
-      $items[$row->p1]['children'][$row->tid]['item'] = $row;
-    }
-  }
-
-  if (!empty($items)) {
-    return array(
-      'content' => array(
-        '#theme' => 'culturefeed_agenda_event_types',
-        '#items' => $items,
-      ),
-    );
-  }
-
-  return;
 }
 
 /**
@@ -62,6 +46,7 @@ function culturefeed_calendar_block_filter_form(\Cultuurnet\Search\SearchResult 
 
   $block = array();
   if (!empty($filter_options)) {
+    module_load_include('inc', 'culturefeed_search_ui', 'includes/blocks');
     $block['content'] = culturefeed_search_ui_block_filter_block($filter_options, $display_type);
   }
 

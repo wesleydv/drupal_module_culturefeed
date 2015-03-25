@@ -105,22 +105,35 @@ function culturefeed_search_ui_menu() {
 
     $class_name = isset($search_type['class_name']) ? $search_type['class_name'] : 'CultureFeedSearchPage';
 
+    $args = array($name, $class_name);
+    $args[] = 'nojs';
+    if (!empty($search_type['page_arguments'])) {
+      $args += $search_type['page_arguments'];
+    }
+
     // Menu paths for search.
     $items[$search_type['path']] = array(
       'title' => $search_type['page_title'],
       'title callback' => FALSE,
       'page callback' => 'culturefeed_search_ui_search_page',
-      'page arguments' => array($name, $class_name),
+      'page arguments' => $args,
       'file' => 'includes/pages.inc',
       'access arguments' => array('access content'),
       'type' => MENU_CALLBACK,
     );
+
+    // Reinitialize args.
+    $args = array($name, $class_name);
     $arguments = explode('/', $search_type['path']);
+    $args[] = count($arguments);
+    if (!empty($search_type['page_arguments'])) {
+      $args += $search_type['page_arguments'];
+    }
     $items[$search_type['path'] . '/%'] = array(
       'title' => $search_type['page_title'],
       'title callback' => FALSE,
       'page callback' => 'culturefeed_search_ui_search_page',
-      'page arguments' => array($name, $class_name, count($arguments)),
+      'page arguments' => $args,
       'file' => 'includes/pages.inc',
       'access arguments' => array('access content'),
       'type' => MENU_CALLBACK,
@@ -605,7 +618,7 @@ function culturefeed_search_ui_block_configure($delta) {
       $form[$config_label][$i]['api-filter-query'] = array(
         '#title' => t('Filterquery for API'),
         '#type' => 'textfield',
-        '#default_value' => isset($options[$i]['api-filter-query']) ? $options[$i]['api-filter-query'] : '', 
+        '#default_value' => isset($options[$i]['api-filter-query']) ? $options[$i]['api-filter-query'] : '',
         '#maxlength' => 255
       );
     }

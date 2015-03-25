@@ -7,7 +7,7 @@
 /**
  * Get the users activities.
  */
-function culturefeed_calendar_get_user_activities($use_search = FALSE, $user_id = '') {
+function culturefeed_calendar_get_user_activities($user_id = '') {
 
   $user_id = !empty($user_id) ? $user_id : DrupalCultureFeed::getLoggedInUserId();
 
@@ -16,20 +16,11 @@ function culturefeed_calendar_get_user_activities($use_search = FALSE, $user_id 
     return $activities;
   }
 
-/*
-  //$facetComponent = new Facet\FacetComponent();
-  $facet_component = culturefeed_get_facet_component();
-  if ($facet_component) {
-    $culturefeedSearchPage->addParameter($facet_component->facetField('agefrom'));
-    $culturefeedSearchPage->addParameter($facet_component->facetField('type'));
-  }
-*/
-
   if ($user_id) {
-    $activities[$user_id] = culturefeed_calendar_get_culturefeed_user_activities($use_search, $user_id);
+    $activities[$user_id] = culturefeed_calendar_get_culturefeed_user_activities($user_id);
   }
   else {
-    $activities[$user_id] = culturefeed_calendar_get_anonymous_user_activities($use_search);
+    $activities[$user_id] = culturefeed_calendar_get_anonymous_user_activities();
   }
 
   return $activities[$user_id];
@@ -38,7 +29,7 @@ function culturefeed_calendar_get_user_activities($use_search = FALSE, $user_id 
 /**
  * Get all the calendar activities for a culturefeed user.
  */
-function culturefeed_calendar_get_culturefeed_user_activities($use_search, $user_id) {
+function culturefeed_calendar_get_culturefeed_user_activities($user_id) {
 
   $activities = new stdClass();
   $activities->objects = array();
@@ -56,37 +47,6 @@ function culturefeed_calendar_get_culturefeed_user_activities($use_search, $user
   $query->contentType = 'event';
   $query->userId = $user_id;
 
-  // Use search for facet support.
-  if ($use_search) {
-
-    // No search cache for the calendar page.
-    global $conf;
-    $conf['culturefeed_search_cache_enabled'] = FALSE;
-
-    $service = culturefeed_get_search_service();
-    $parameters[] = new CultuurNet\Search\Parameter\Group();
-    $parameters[] = new CultuurNet\Search\Parameter\Rows(500);
-    $parameters[] = new CultuurNet\Search\Parameter\FilterQuery('type:event');
-    $parameters[] = new CultuurNet\Search\Parameter\Query('*:*');
-    $parameters[] = new CultuurNet\Search\Parameter\FilterQuery('attend_users:' . $user_id . ' OR like_users:' . $user_id);
-
-    $result = $service->search($parameters);
-    // No likes / attends for this user on future events, don't do an activity search.
-    if ($result->getTotalCount() == 0) {
-      return $activities;
-    }
-
-    $items = $result->getItems();
-    $content_ids = array();
-    foreach ($items as $item) {
-      $content_ids[] = $item->getId();
-    }
-
-    // Only search on found events. This way, we only see events in the future.
-    $query->nodeId = $content_ids;
-
-  }
-
   try {
     $activities = DrupalCultureFeed::searchActivities($query);
   }
@@ -101,7 +61,7 @@ function culturefeed_calendar_get_culturefeed_user_activities($use_search, $user
 /**
  * Get the calendar activities for an anonymous user.
  */
-function culturefeed_calendar_get_anonymous_user_activities($use_search) {
+function culturefeed_calendar_get_anonymous_user_activities() {
 
   $activities = new stdClass();
   $activities->objects = array();
@@ -113,60 +73,8 @@ function culturefeed_calendar_get_anonymous_user_activities($use_search) {
     $calendar = json_decode($_COOKIE['Drupal_visitor_calendar']);
     // Check if cookie is valid.
     if (is_array($calendar)) {
-
-      // Use search for facet support.
-      if ($use_search) {
-
-        $eventids = array();
-        $filterids = array();
-        foreach ($calendar as $key => $event) {
-          $eventids[] = $event->nodeId;
-          $filterids[] = '"' . $event->nodeId . '"';
-        }
-
-        $service = culturefeed_get_search_service();
-        $parameters[] = new CultuurNet\Search\Parameter\Group();
-        $parameters[] = new CultuurNet\Search\Parameter\Rows(500);
-        $parameters[] = new CultuurNet\Search\Parameter\FilterQuery('type:event');
-        $parameters[] = new CultuurNet\Search\Parameter\Query('cdbid IN(' . implode(',', $eventids) . ')');
-
-        try {
-
-          $result = $service->search($parameters);
-          // No future events in the cookie.
-          if ($result->getTotalCount() == 0) {
-            return $activities;
-          }
-
-          $activities->objects = array();
-          $items = $result->getItems();
-          // Set only the events that are found on search api (=future events).
-          foreach ($items as $item) {
-            $key = array_search($item->getId(), $eventids);
-            if ($key !== FALSE) {
-              unset($eventids[$key]);
-              $activities->objects[] = $calendar[$key];
-            }
-          }
-
-          // All remaining eventids don't exist in future, remove them of cookie.
-          foreach ($eventids as $key => $id) {
-            culturefeed_calendar_delete_calendar_event_cookie($calendar[$key]);
-          }
-
-
-        }
-        catch (Exception $e) {
-          watchdog_exception('culturefeed_calendar', $e);
-        }
-
-      }
-      else {
-        $activities->objects = $calendar;
-      }
-
+      $activities->objects = $calendar;
       $activities->total = count($activities->objects);
-
     }
 
   }

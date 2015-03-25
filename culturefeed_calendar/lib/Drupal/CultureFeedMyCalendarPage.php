@@ -4,7 +4,7 @@
  * Defines a Page callback for Calendar search results for a user.
  */
 
-use \CultuurNet\Search\Parameter;
+//use \CultuurNet\Search\Parameter;
 use \CultuurNet\Search\Component\Facet;
 
 /**
@@ -14,9 +14,23 @@ class CultureFeedMyCalendarPage extends CultureFeedSearchPage
     implements CultureFeedSearchPageInterface {
 
   /**
+   * Activities.
+   * @var Object
+   */
+  protected $activities = NULL;
+
+  /**
+   * userId.
+   * @var String
+   */
+  protected $userId = '';
+
+  /**
    * Initializes the search with data from the URL query parameters.
    */
   public function initialize() {
+
+    $this->userId = DrupalCultureFeed::getLoggedInUserId();
 
     // Only initialize once.
     if (empty($this->facetComponent)) {
@@ -32,42 +46,228 @@ class CultureFeedMyCalendarPage extends CultureFeedSearchPage
 
       $this->pageNumber = empty($params['page']) ? 1 : $params['page'] + 1;
 
-      if (!empty($params['search'])) {
-        // Remove / from the start and : from the end of keywords.
-        $this->addQueryTerm(preg_replace("/\/\b|\b:/x", "", $params['search']));
-      }
-
-      $add_type_filter = TRUE;
-      if (isset($params['facet']['type'])) {
-        $active_types = $params['facet']['type'];
-        unset($params['facet']['type']);
-      }
-      else {
-        $active_types = variable_get('culturefeed_agenda_active_entity_types', array('event', 'production'));
-        // If all active types are selected, don't add filter.
-        if (count($active_types) == count(culturefeed_agenda_known_entity_types())) {
-          $add_type_filter = FALSE;
-        }
-      }
-
-      if ($add_type_filter) {
-        array_walk($active_types, function(&$active_type) {
-          $active_type = 'type:' . $active_type;
-        });
-        $this->parameters[] = new Parameter\FilterQuery(implode(' OR ', $active_types));
-      }
-
       $this->addFacetFilters($params);
 
       $this->parameters[] = $this->facetComponent->facetField('category');
-      $this->parameters[] = $this->facetComponent->facetField('datetype');
-      $this->parameters[] = $this->facetComponent->facetField('city');
-      $this->parameters[] = $this->facetComponent->facetField('location_category_facility_id');
+      //$this->parameters[] = $this->facetComponent->facetField('datetype');
+      //$this->parameters[] = $this->facetComponent->facetField('city');
+      //$this->parameters[] = $this->facetComponent->facetField('location_category_facility_id');
 
       $this->execute($params);
 
       // Warm up cache.
       $this->warmupCache();
+    }
+  }
+
+  /**
+   * Executes query for activities and the user calendar.
+   */
+  private function executeUserActivities($userId) {
+
+    // Only search for activities with type_like or type_ik_ga.
+    $activity_options = array(
+      CultureFeed_Activity::TYPE_LIKE,
+      CultureFeed_Activity::TYPE_IK_GA,
+    );
+
+    $query = new CultureFeed_SearchActivitiesQuery();
+    $query->max = 500;
+    $query->type = $activity_options;
+    $query->contentType = 'event';
+    $query->userId = $userId;
+
+    // No search cache for the calendar page.
+    global $conf;
+    $conf['culturefeed_search_cache_enabled'] = FALSE;
+
+    $this->parameters[] = new CultuurNet\Search\Parameter\Start(($this->pageNumber - 1) * $this->resultsPerPage);
+    $this->parameters[] = new CultuurNet\Search\Parameter\Group($this->group);
+    $this->parameters[] = new CultuurNet\Search\Parameter\Rows(500);
+    $this->parameters[] = new CultuurNet\Search\Parameter\Parameter('spellcheck', 'false');
+    $this->parameters[] = new CultuurNet\Search\Parameter\FilterQuery('type:event');
+    $this->parameters[] = new CultuurNet\Search\Parameter\Query('*:*');
+    $this->parameters[] = new CultuurNet\Search\Parameter\FilterQuery('attend_users:' . $userId . ' OR like_users:' . $userId);
+
+    $searchService = culturefeed_get_search_service();
+    $this->facetQueryAlter();
+    $this->result = $searchService->search($this->parameters);
+
+    // No likes / attends for this user on future events, don't do an activity search.
+    if ($this->result->getTotalCount() == 0) {
+      return;
+    }
+
+    $items = $this->result->getItems();
+    $content_ids = array();
+    foreach ($items as $item) {
+      $content_ids[] = $item->getId();
+    }
+
+    // Only search on found events. This way, we only see events in the future.
+    $query->nodeId = $content_ids;
+
+    try {
+      $this->activities = DrupalCultureFeed::searchActivities($query);
+    }
+    catch (Exception $e) {
+      watchdog_exception('culturefeed_calendar', $e);
+    }
+
+    return $this->activities;
+
+  }
+
+  /**
+   * Executes query for activities and anonymous calendar.
+   */
+  private function executeAnonymousActivities() {
+
+    // No cookie = no activities
+    if (isset($_COOKIE['Drupal_visitor_calendar'])) {
+
+      $calendar = json_decode($_COOKIE['Drupal_visitor_calendar']);
+
+      // Check if cookie is valid.
+      if (is_array($calendar)) {
+
+        $eventids = $filterids = array();
+        foreach ($calendar as $key => $event) {
+          $eventids[] = $event->nodeId;
+          $filterids[] = '"' . $event->nodeId . '"';
+        }
+
+        $this->parameters[] = new CultuurNet\Search\Parameter\Group();
+        $this->parameters[] = new CultuurNet\Search\Parameter\Rows(500);
+        $this->parameters[] = new CultuurNet\Search\Parameter\FilterQuery('type:event');
+        $this->parameters[] = new CultuurNet\Search\Parameter\Query('cdbid IN(' . implode(',', $eventids) . ')');
+
+        try {
+
+          $service = culturefeed_get_search_service();
+          $this->facetQueryAlter();
+          $this->result = $service->search($this->parameters);
+          // No future events in the cookie.
+          if ($this->result->getTotalCount() == 0) {
+            return;
+          }
+
+          $items = $this->result->getItems();
+
+          // Set only the events that are found on search api (=future events).
+          foreach ($items as $item) {
+            $key = array_search($item->getId(), $eventids);
+            if ($key !== FALSE) {
+              unset($eventids[$key]);
+              $this->activities->objects[] = $calendar[$key];
+            }
+          }
+
+          // All remaining eventids don't exist in future, remove them of cookie.
+          foreach ($eventids as $key => $id) {
+            culturefeed_calendar_delete_calendar_event_cookie($calendar[$key]);
+          }
+
+
+        }
+        catch (Exception $e) {
+          watchdog_exception('culturefeed_calendar', $e);
+        }
+
+
+        $this->activities->total = count($this->activities->objects);
+
+      }
+
+    }
+
+  }
+
+  /**
+   * Execute the search for current page.
+   */
+  protected function execute($params) {
+
+    $this->activities = new stdClass();
+    $this->activities->objects = array();
+    $this->activities->total = 0;
+
+    // Third page argument is the $user_id for Calendar pages.
+    if (!empty($this->userId)) {
+      $this->executeUserActivities($this->userId);
+    }
+    else {
+      $this->executeAnonymousActivities();
+    }
+
+    // No drupal alter for these queries.
+
+    if (!isset($this->result)) {
+      throw new InvalidSearchPageException('No results loaded');
+    }
+    $this->facetComponent->obtainResults($this->result);
+
+  }
+
+  /**
+   * Alter the query for factes.
+   */
+  protected function facetQueryAlter() {
+
+    // Custom calendar form filter facets.
+    culturefeed_search_ui_page_add_query_filters($this,
+      variable_get('culturefeed_calendar_filter_options', culturefeed_search_ui_default_filter_options()),
+      variable_get('culturefeed_calendar_filter_operator', 'and')
+    );
+
+    // Event type facets.
+
+  }
+
+  /**
+   * Get the build from current search page.
+   */
+  protected function build() {
+
+    //pager_default_initialize($this->result->getTotalCount(), $this->resultsPerPage);
+
+    $build = array();
+
+    module_load_include('inc', 'culturefeed_calendar', 'includes/pages');
+
+    if ($this->result->getTotalCount() > 0) {
+
+      $build['pager-container'] =  array(
+        '#type' => 'container',
+        '#attributes' => array(),
+      );
+
+      // Third page argument is the $user_id for Calendar pages.
+      if (!empty($this->pageArguments[3])) {
+        $build['pager-container']['list'] = array(
+          '#markup' => theme('culturefeed_calendar_page', array('activities' => $this->activities, 'user_id' => $user_id))
+        );
+      }
+      else {
+        $build['pager-container']['list'] = array(
+          '#markup' => theme('culturefeed_calendar_page', array('activities' => $this->activities))
+        );
+      }
+
+    }
+
+    return $build;
+
+  }
+
+  /**
+   * @override
+   */
+  public function setPageArguments($arguments) {
+    $this->pageArguments = $arguments;
+
+    if (!empty($arguments[3])) {
+      $this->userId = $arguments[3];
     }
   }
 
@@ -100,64 +300,6 @@ class CultureFeedMyCalendarPage extends CultureFeedSearchPage
       'localized_options' => array(),
       'type' => 0,
     );
-
-    // Show event type and theme in breadcrumb.
-    $query = drupal_get_query_parameters(NULL, array('page', 'q'));
-    $facet = array();
-    if (isset($query['facet']['category_eventtype_id']) || isset($query['facet']['category_theme_id'])) {
-
-      if (isset($query['facet']['category_eventtype_id'])) {
-
-        $facet['category_eventtype_id'] = $query['facet']['category_eventtype_id'];
-
-        $active_trail[] = array(
-          'title' => culturefeed_search_get_term_translation($query['facet']['category_eventtype_id'][0]),
-          'href' => 'agenda/search',
-          'link_path' => '',
-          'localized_options' => array(
-            'query' => array(
-              'facet' => $facet,
-            ),
-          ),
-          'type' => 0,
-        );
-      }
-
-      if (isset($query['facet']['category_theme_id'])) {
-
-        $facet['category_theme_id'] = $query['facet']['category_theme_id'];
-
-        $active_trail[] = array(
-          'title' => culturefeed_search_get_term_translation($query['facet']['category_theme_id'][0]),
-          'href' => 'agenda/search',
-          'link_path' => '',
-          'localized_options' => array(
-            'query' => array(
-              'facet' => $facet,
-            ),
-          ),
-          'type' => 0,
-        );
-      }
-
-    }
-
-    if (isset($query['location'])) {
-
-      $active_trail[] = array(
-        'title' => $query['location'],
-        'href' => 'agenda/search',
-        'link_path' => '',
-        'localized_options' => array(
-          'query' => array(
-            'location' => $query['location'],
-            'facet' => $facet,
-          ),
-        ),
-        'type' => 0,
-      );
-
-    }
 
     $active_trail[] = array(
       'title' => $this->getPageTitle(),
@@ -277,39 +419,7 @@ class CultureFeedMyCalendarPage extends CultureFeedSearchPage
    *   Description for this type of page.
    */
   public function getPageDescription() {
-
-    $message = "";
-
-    $query = drupal_get_query_parameters(NULL, array('q'));
-
-    if (empty($query)) {
-      $message = t("A summary of all events and productions");
-    }
-    else {
-      $message = t("A summary of all events and productions");
-
-      if (!empty($query['regId'])) {
-        $term = culturefeed_search_get_term_translation($query['regId']);
-        $message .= t(" in @region", array('@region' => $term));
-      }
-      elseif (!empty($query['location'])) {
-        $message .= t(" in @region", array('@region' => $query['location']));
-      }
-
-      if (!empty($query['facet']['category_eventtype_id'][0])) {
-        $term = culturefeed_search_get_term_translation($query['facet']['category_eventtype_id'][0]);
-        $message .= t(" of the type @type", array('@type' => $term));
-      }
-
-      if (!empty($query['facet']['category_theme_id'][0])) {
-        $term = culturefeed_search_get_term_translation($query['facet']['category_theme_id'][0]);
-        $message .= t(" with theme @theme", array('@theme' => $term));
-      }
-
-    }
-
-    return $message;
+    return t("A summary of all events in your calendar");
   }
 
 }
-

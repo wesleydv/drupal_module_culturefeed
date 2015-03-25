@@ -31,7 +31,10 @@ function culturefeed_calendar_preprocess_culturefeed_calendar_page(&$variables) 
   }
 
   $authenticated = DrupalCultureFeed::isCultureFeedUser();
-  $variables['sidebar'] = 'empty';
+  $blocks = array();
+  $blocks[] = module_invoke('culturefeed_calendar', 'block_view', 'calendar-event-types');
+  $blocks[] = module_invoke('culturefeed_calendar', 'block_view', 'calendar-filter-form');
+  $variables['sidebar'] = drupal_render($blocks);
 
   // Top nav with month names.
   $months = _culturefeed_calendar_get_nav_months();
@@ -312,5 +315,3 @@ function culturefeed_calendar_preprocess_culturefeed_calendar_settings_page(&$va
   $variables['back_to_calendar_url'] =  $base_url . '/culturefeed/calendar';
 
 }
-
-

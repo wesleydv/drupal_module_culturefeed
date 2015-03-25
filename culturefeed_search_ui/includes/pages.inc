@@ -33,6 +33,7 @@ function culturefeed_search_ui_search_page($name, $class_name = NULL, $request_t
     if ($ajax) {
       $page->setFullPage(FALSE);
     }
+    $page->setPageArguments(func_get_args());
     $page->setPagerType(variable_get('culturefeed_search_ui_pager_type', CULTUREFEED_SEARCH_UI_PAGER_NORMAL));
     $page->setDefaultTitle($conf['page_title']);
     $build = $page->loadPage();
