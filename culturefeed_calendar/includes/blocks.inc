@@ -46,7 +46,16 @@ function culturefeed_calendar_block_filter_form(\Cultuurnet\Search\SearchResult 
   $block = array();
   if (!empty($filter_options)) {
     module_load_include('inc', 'culturefeed_search_ui', 'includes/blocks');
-    $block['content'] = culturefeed_search_ui_block_filter_block($filter_options, $display_type);
+    $build = culturefeed_search_ui_block_filter_block($filter_options, $display_type);
+    // Renderable array.
+    if (is_array($build)) {
+      $block['content'] = $build;
+    }
+    // Create a renderable array for the strings.
+    else {
+      $block['content'] = array('#markup' => $build);
+    }
+
   }
 
   return $block;

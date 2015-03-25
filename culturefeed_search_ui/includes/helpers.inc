@@ -280,7 +280,7 @@ function culturefeed_get_searchable_type_by_path($path = '') {
     $path = $menu_item['path'];
   }
   foreach (culturefeed_get_searchable_types() as $name => $type) {
-    if ($type['path'] == $path) {
+    if ($type['path'] == $path || $type['path'] . "/%" == $path) {
       $type['name'] = $name;
       return $type;
     }

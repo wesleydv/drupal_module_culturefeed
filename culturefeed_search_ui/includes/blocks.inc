@@ -706,11 +706,15 @@ function culturefeed_search_ui_block_filter_block($filter_options, $display_type
   }
   elseif ($display_type == 'links') {
     // Show filters as links.
-    $searches = culturefeed_get_searchable_types();
-    $path = isset($searches['path']) ? $searches['path'] : NULL;
+    // @todo Fix this: this can never work as types returns array search pages.
+    //       In fact check if it is needed at all since the preprocessor take
+    //       current path.
+    //$searches = culturefeed_get_searchable_types();
+    //$path = isset($searches['path']) ? $searches['path'] : NULL;
+    $path = NULL;
     $query = drupal_get_query_parameters(NULL, array('q', 'page'));
 
-    return  theme('culturefeed_search_block_filter_links',
+    return theme('culturefeed_search_block_filter_links',
       array(
         'filter_options' => $filter_options,
         'query' => $query,
