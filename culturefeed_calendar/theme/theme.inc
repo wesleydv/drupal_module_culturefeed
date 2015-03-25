@@ -30,8 +30,10 @@ function culturefeed_calendar_preprocess_culturefeed_calendar_page(&$variables) 
 
   $authenticated = DrupalCultureFeed::isCultureFeedUser();
   $blocks = array();
-  $blocks[] = module_invoke('culturefeed_calendar', 'block_view', 'calendar-event-types');
-  $blocks[] = module_invoke('culturefeed_calendar', 'block_view', 'calendar-filter-form');
+  $event_types_block = module_invoke('culturefeed_calendar', 'block_view', 'calendar-event-types');
+  $blocks['event_types'] = $event_types_block['content'];
+  $filter_form_block = module_invoke('culturefeed_calendar', 'block_view', 'calendar-filter-form');
+  $blocks['filter_form'] = $filter_form_block['content'];
   $variables['sidebar'] = drupal_render($blocks);
 
   // Top nav with month names.
