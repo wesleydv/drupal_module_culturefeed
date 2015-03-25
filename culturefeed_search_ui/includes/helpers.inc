@@ -302,11 +302,13 @@ function culturefeed_search_get_active_search_page() {
  *
  * @param array $search_type
  *   A searchable type, as supplied by hook_culturefeed_searchable_types().
+ * @param Boolean $initialize
+ *   Indicates whether the search page should initialize the execution of the query.
  *
  * @return CultureFeedSearchPage
  *   An instance of the requested search page.
  */
-function culturefeed_get_search_page($search_type) {
+function culturefeed_get_search_page($search_type, $initialize = TRUE) {
   $pages = &drupal_static(__FUNCTION__);
   $class_name = $search_type['class_name'];
   if (!isset($pages[$class_name])) {
@@ -314,7 +316,9 @@ function culturefeed_get_search_page($search_type) {
     $pages[$class_name]->setResultsPerPage(variable_get('culturefeed_search_ui_pager_items_per_page', CULTUREFEED_SEARCH_UI_PAGER_ITEMS_PER_PAGE));
     $pages[$class_name]->setDefaultSort($search_type['sort_default']);
     $pages[$class_name]->setGroup(variable_get('culturefeed_search_group', 'event_production'));
-    $pages[$class_name]->initialize();
+    if ($initialize) {
+      $pages[$class_name]->initialize();
+    }
   }
   return $pages[$class_name];
 }

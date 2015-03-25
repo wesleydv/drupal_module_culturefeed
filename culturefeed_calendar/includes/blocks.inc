@@ -26,7 +26,6 @@ function culturefeed_calendar_block_event_types() {
   );
   module_load_include('inc', 'culturefeed_search_ui', 'includes/blocks');
   $block = culturefeed_search_ui_search_facets_block($facet_name, $domain_id, $allowed_values, $block_settings);
-
   return $block;
 
 }

@@ -28,7 +28,7 @@ function culturefeed_search_ui_search_page($name, $class_name = NULL, $request_t
   try {
 
     $conf = culturefeed_get_searchable_type($name);
-    $page = culturefeed_get_search_page($conf);
+    $page = culturefeed_get_search_page($conf, FALSE);
 
     if ($ajax) {
       $page->setFullPage(FALSE);

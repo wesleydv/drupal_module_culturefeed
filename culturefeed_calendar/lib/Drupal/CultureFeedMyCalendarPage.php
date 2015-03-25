@@ -30,7 +30,9 @@ class CultureFeedMyCalendarPage extends CultureFeedSearchPage
    */
   public function initialize() {
 
-    $this->userId = DrupalCultureFeed::getLoggedInUserId();
+    if (empty($this->userId)) {
+      $this->userId = DrupalCultureFeed::getLoggedInUserId();
+    }
 
     // Only initialize once.
     if (empty($this->facetComponent)) {
@@ -243,9 +245,9 @@ class CultureFeedMyCalendarPage extends CultureFeedSearchPage
       );
 
       // Third page argument is the $user_id for Calendar pages.
-      if (!empty($this->pageArguments[3])) {
+      if (!empty($this->userId)) {
         $build['pager-container']['list'] = array(
-          '#markup' => theme('culturefeed_calendar_page', array('activities' => $this->activities, 'user_id' => $user_id))
+          '#markup' => theme('culturefeed_calendar_page', array('activities' => $this->activities, 'user_id' => $this->userId))
         );
       }
       else {
