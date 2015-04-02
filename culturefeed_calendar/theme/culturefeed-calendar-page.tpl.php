@@ -34,10 +34,6 @@
   </div>
 
   <div>
-    <?php print $sidebar; ?>
-  </div>
-
-  <div>
     <?php if (!empty($planned) || !empty($not_yet_planned)): ?>
       <?php print $not_yet_planned ?>
       <?php print $planned ?>
