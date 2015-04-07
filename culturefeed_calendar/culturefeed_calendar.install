@@ -1,0 +1,30 @@
+<?php
+
+/**
+ * @file
+ * Install / update file for calendar.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function culturefeed_calendar_install() {
+
+  // Set default settings for the event type facet.
+  $query = db_select('culturefeed_search_terms', 'cst');
+  $query->fields('cst', array('tid', 'name'));
+  $query->condition('cst.did', 'eventtype');
+  $query->condition('language', culturefeed_search_get_preferred_language());
+
+  $result = $query->execute();
+
+  foreach ($result as $row) {
+    // Don't show 'type onbepaald'.
+    if ($row->tid != '0.51.0.0.0') {
+      $defaults[$row->tid] = $row->tid;
+    }
+  }
+  variable_set('calendar_facet_event_types', $defaults);
+
+}
+

@@ -339,7 +339,7 @@ function culturefeed_calendar_block_view($delta) {
     case  'calendar-event-types':
 
       $block = culturefeed_calendar_block_event_types();
-      
+
       break;
 
     case  'calendar-filter-form':
