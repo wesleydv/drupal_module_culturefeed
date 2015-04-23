@@ -97,27 +97,33 @@ function culturefeed_search_ui_get_date_facet_options() {
 function culturefeed_search_ui_get_age_range_facet_options() {
   return array(
     0 => array(
-      'name' => '0-2 ' . t('year'),
+      'name' => culturefeed_search_ui_age_range_label(0, 2),
       'query' => '(agefrom:[0 TO 2] OR keywords:"ook voor kinderen")',
       'range' => '[0 TO 2]',
     ),
     3 => array(
-      'name' => '3-5 ' . t('year'),
+      'name' => culturefeed_search_ui_age_range_label(3, 5),
       'query' => '(agefrom:[3 TO 5] OR keywords:"ook voor kinderen")',
       'range' => '[3 TO 5]',
     ),
     6 => array(
-      'name' => '6-8 ' . t('year'),
+      'name' => culturefeed_search_ui_age_range_label(6, 8),
       'query' => '(agefrom:[6 TO 8] OR keywords:"ook voor kinderen")',
       'range' => '[6 TO 8]',
     ),
     9 => array(
-      'name' => '9-11 ' . t('year'),
+      'name' => culturefeed_search_ui_age_range_label(9, 11),
       'query' => '(agefrom:[9 TO 11] OR keywords:"ook voor kinderen")',
       'range' => '[9 TO 11]',
     ),
   );
+}
 
+/**
+ * Provides a (translatable) label for an age range.
+ */
+function culturefeed_search_ui_age_range_label($from, $to) {
+  return t('@from-@to year', array('@from' => $from, '@to' => $to));
 }
 
 /**
