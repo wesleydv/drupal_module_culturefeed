@@ -17,7 +17,7 @@
                 $.each(data, function(index, element) {
                   if (!(element.label.match(/^\d+/))) {
                     if (!(element.label.match(/^Provinc|Regio+/))) {
-                      element.label += Drupal.t(' (+ deelgemeenten)');
+                      element.label += ' (' + Drupal.t('all municipalities') + ')';
                     }
                   }
                 });            
