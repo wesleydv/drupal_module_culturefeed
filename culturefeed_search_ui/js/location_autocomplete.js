@@ -25,6 +25,20 @@
           }
 
         },
+        search: function(){
+          $(this).addClass('throbbing');
+        },
+        open: function(event, ui) {
+          $(this).removeClass('throbbing');
+          // Workaround for autoFocus missing before version 1.8.11
+          // (http://jqueryui.com/changelog/1.8.11/)
+          // We only check from 1.8.7, the version shipped with Drupal.
+          var version = $.ui.version;
+          var old = ['1.8.7', '1.8.8.', '1.8.9', '1.8.10'];
+          if ($.inArray(version, old) >= 0) {
+            $(this).data("autocomplete").menu.next(event);
+          }
+        },
         autoFocus: true,
       });
 
@@ -41,6 +55,16 @@
             $(this).val(ui.item.suggestion);
           }
 
+        },
+        open: function(event, ui) {
+          // Workaround for autoFocus missing before version 1.8.11
+          // (http://jqueryui.com/changelog/1.8.11/)
+          // We only check from 1.8.7, the version shipped with Drupal.
+          var version = $.ui.version;
+          var old = ['1.8.7', '1.8.8.', '1.8.9', '1.8.10'];
+          if ($.inArray(version, old) >= 0) {
+            $(this).data("autocomplete").menu.next(event);
+          }
         },
         autoFocus: true,
       });
