@@ -63,8 +63,7 @@
           $.each(data, function(index, element) {
             if (!(element.label.match(/^\d+/))) {
               if (!(element.label.match(/^Provinc|Regio+/)) && (element.type == 'city')) {
-                //element.label += ' (' + Drupal.t('all municipalities') + ')';
-                element.suffix = ' (' + Drupal.t('all municipalities') + ')';
+                element.label += ' (' + Drupal.t('all municipalities') + ')';
               }
             }
           });            
