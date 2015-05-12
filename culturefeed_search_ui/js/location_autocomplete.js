@@ -40,6 +40,24 @@
           }
         },
         autoFocus: true,
+      }).keydown(function(event) {
+        if (event.which == 13) {
+          event.preventDefault();
+          var value = $(this).val();
+          var form = this.form;
+          $.getJSON(Drupal.settings.basePath + 'autocomplete/culturefeed_ui/city-actor-suggestion/' + value, function(data) {
+            var validated = false;
+            $.each(data, function(key, option) {
+              if (option.label == value) {
+                validated = true;
+              }
+            });
+            /*if (validated) {
+              form.submit();
+            }*/
+          });
+        }
+      
       });
 
       $("#edit-where").once('location-search-init').categorisedAutocomplete({
@@ -67,6 +85,23 @@
           }
         },
         autoFocus: true,
+      }).keydown(function(event) {
+        if (event.which == 13) {
+          event.preventDefault();
+          var value = $(this).val();
+          var form = this.form;
+          $.getJSON(Drupal.settings.basePath + 'autocomplete/culturefeed_ui/city-actor-suggestion/' + value, function(data) {
+            var validated = false;
+            $.each(data, function(key, option) {
+              if (option.label == value) {
+                validated = true;
+              }
+            });
+            /*if (validated) {
+              form.submit();
+            }*/
+          });
+        }
       });
 
     }
