@@ -103,7 +103,8 @@
 
       if (jQuery(this.input).hasClass('location-form-autocomplete-submit')) {
         // Set user input in cookie and location form.
-        Drupal.CultureFeed.getLatLonFromAddress($(node).data('autocompleteValue'), Drupal.CultureFeed.Agenda.updateLocationForm);
+        // Drupal.CultureFeed.getLatLonFromAddress($(node).data('autocompleteValue'), Drupal.CultureFeed.Agenda.updateLocationForm);
+        return;
       }
 
       if ($(this.input).hasClass('auto-submit-field')) {
@@ -123,7 +124,8 @@
 
         if (jQuery(this.input).hasClass('location-form-autocomplete-submit')) {
           // Set user input in cookie and location form.
-          Drupal.CultureFeed.getLatLonFromAddress($(this.selected).data('autocompleteValue'), Drupal.CultureFeed.Agenda.updateLocationForm);
+          // Drupal.CultureFeed.getLatLonFromAddress($(this.selected).data('autocompleteValue'), Drupal.CultureFeed.Agenda.updateLocationForm);
+          return;
         }
 
         if ($(this.input).hasClass('auto-submit-field')) {

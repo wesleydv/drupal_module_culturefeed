@@ -26,7 +26,8 @@
       Drupal.Culturefeed.getNearbyActors();
     }
     else {
-      Drupal.CultureFeed.geolocate(Drupal.Culturefeed.getNearbyActors);
+      //Drupal.CultureFeed.geolocate(Drupal.Culturefeed.getNearbyActors);
+      return;
     }
   });
 

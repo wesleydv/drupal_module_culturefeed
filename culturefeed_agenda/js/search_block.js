@@ -11,7 +11,7 @@
       $nearby_link.bind('click', function() {
         $(this).unbind('click');
         $nearby_link.append(' <span id="current-location" class="loading-location throbber">Loading...</span>');
-        Drupal.CultureFeed.geolocate(Drupal.CultureFeed.Agenda.setLocationAutocomplete);
+        //Drupal.CultureFeed.geolocate(Drupal.CultureFeed.Agenda.setLocationAutocomplete);
      });
 
     }

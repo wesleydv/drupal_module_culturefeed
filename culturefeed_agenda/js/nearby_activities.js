@@ -26,7 +26,8 @@
             $(this).trigger('mousedown');
           }
           else {
-            Drupal.CultureFeed.geolocate(Drupal.CultureFeed.Agenda.updateLocationForm);
+            //Drupal.CultureFeed.geolocate(Drupal.CultureFeed.Agenda.updateLocationForm);
+            return;
           }
 
         });
