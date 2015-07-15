@@ -172,6 +172,24 @@ function culturefeed_search_ui_set_noindex_metatag() {
 
     }
 
+    // No index is FALSE, if user is filtering on umv category and/or region.
+    elseif (isset($query['facet']['category_umv_id'])) {
+
+      $facets = $query['facet'];
+      unset($facets['category_umv_id']);
+      unset($facets['category_flandersregion_id']);
+
+      unset($query['location']);
+      unset($query['regId']);
+      unset($query['facet']);
+
+      // If regId was the only extra facet / parameters, set noindex to false.
+      if (count($facets) == 0 && count($query) == 0) {
+        $noindex = FALSE;
+      }
+
+    }
+
     // No index is FALSE, if user is filtering on region Id without additional facets.
     elseif ((isset($query['regId']) || isset($query['location'])) && !isset($query['facet'])) {
 
