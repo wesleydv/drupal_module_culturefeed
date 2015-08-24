@@ -259,7 +259,9 @@ function _culturefeed_agenda_preprocess_agenda(&$variables) {
     // If no main picture is set we use first picture
     if (empty($main_picture) && count($pictures) > 0) {
       $main_picture = $pictures[0];
-      $main_picture_cr = $copyrights[0];
+      if (isset($copyrights[0])) {
+        $main_picture_cr = $copyrights[0];
+      }
     }
 
     // we don't want the main picture to show twice
@@ -438,7 +440,7 @@ function _culturefeed_agenda_preprocess_agenda_detail(&$variables) {
 
     // Build share URL's.
     $variables['facebook']['url'] = culturefeed_share_link($variables['share_url'], 'facebook', $variables['title'], $variables['device']);
-    $variables['googleplus']['url'] = culturefeed_share_link($variables['share_url'], 'googleplus', $variables['title']);
+    $variables['googleplus']['url'] = culturefeed_share_link($variables['share_url'], 'googleplus', $variables['title'], $variables['device']);
     $variables['twitter']['url'] = culturefeed_share_link($variables['share_url'], 'twitter', $variables['title'], $variables['device']);
     $variables['whatsapp']['url'] = culturefeed_share_link($variables['share_url'], 'whatsapp', $variables['title'], $variables['device']);
     $variables['mail']['url'] = culturefeed_share_link($variables['share_url'], 'mail', $variables['title'], $variables['device']);
@@ -552,7 +554,7 @@ function _culturefeed_agenda_preprocess_event(&$variables) {
     $faxes = array();
     foreach ($contact_info->getPhones() as $phone) {
       if ($phone->getType() == CultureFeed_Cdb_Data_Phone::PHONE_TYPE_PHONE) {
-        if($variables['device'] == 'phone')
+        if(isset($variables['device']) && $variables['device'] == 'phone')
         {
           $phones[] = l($phone->getNumber(), 'tel:'.culturefeed_valid_phone($phone->getNumber()));
         }
@@ -582,7 +584,7 @@ function _culturefeed_agenda_preprocess_event(&$variables) {
       // Reservation phone
       if (isset($reservation_info['phone'])) {
         foreach ($reservation_info['phone'] as $phone) {
-          if($variables['device'] == 'phone')
+          if(isset($variables['device']) && $variables['device'] == 'phone')
           {
             $reservation_phones[] = l($phone, 'tel:'.culturefeed_valid_phone($phone));
           }
@@ -596,14 +598,19 @@ function _culturefeed_agenda_preprocess_event(&$variables) {
       // Reservation url
       if (isset($reservation_info['url'])) {
         foreach ($reservation_info['url'] as $url) {
-          if(!in_array($url, $variables['ticket_links'])){
+          if(isset($variables['ticket_links']) && !in_array($url, $variables['ticket_links'])){
             // clean up link text
             $url_text = str_replace('http://', '', $url);
             $url_text = str_replace('https://', '', $url_text);
             $reservation_urls[] = l(truncate_utf8($url_text, 40, FALSE, TRUE), $url, array('attributes' => array('id' => 'cf-reservation')));
           }
         }
-        $variables['reservation']['url'] = implode(', ', $reservation_urls);
+        if (isset($reservation_urls)) {
+          $variables['reservation']['url'] = implode(', ', $reservation_urls);
+        }
+        else {
+          $variables['reservation']['url'] = implode(', ', $reservation_info['url']);
+        }
       }
 
     // Coordinates.
@@ -898,7 +905,7 @@ function _culturefeed_agenda_preprocess_actor(&$variables) {
     $faxes = array();
     foreach ($contact_info->getPhones() as $phone) {
       if ($phone->getType() == CultureFeed_Cdb_Data_Phone::PHONE_TYPE_PHONE) {
-        if($variables['device'] == 'phone')
+        if(isset($variables['device']) && $variables['device'] == 'phone')
         {
           $phones[] = l($phone->getNumber(), 'tel:'.culturefeed_valid_phone($phone->getNumber()));
         }
@@ -1065,10 +1072,10 @@ function _culturefeed_agenda_preprocess_event_production_metatags($variables) {
   // Add open graph meta tags.
   $fb_app_id = variable_get('culturefeed_search_ui_fb_app_id', '');
   if (!empty($fb_app_id)) {
-    $og_tags['fb:app_id'] = $fb_app_id; 
-  }  
-  $og_tags['og:site_name'] = variable_get('site_name', '');  
-  $og_tags['og:url'] = url($variables['url'], array('absolute' => TRUE)); 
+    $og_tags['fb:app_id'] = $fb_app_id;
+  }
+  $og_tags['og:site_name'] = variable_get('site_name', '');
+  $og_tags['og:url'] = url($variables['url'], array('absolute' => TRUE));
   $og_tags['og:description'] = implode(' - ', $description_parts);
   if ($variables['main_picture']) {
     $colonpos = strpos($variables['main_picture'], ':');
@@ -1080,7 +1087,7 @@ function _culturefeed_agenda_preprocess_event_production_metatags($variables) {
     $path = drupal_get_path('module', 'culturefeed_agenda');
     $og_tags['og:image'] = url($path . '/images/no-thumbnail.png', array('absolute' => TRUE));
   }
-  
+
   foreach ($og_tags as $property => $content) {
     drupal_add_html_head(array(
       '#tag' => 'meta',
@@ -1136,10 +1143,10 @@ function _culturefeed_agenda_preprocess_actor_page_metatags($variables) {
   // Add open graph meta tags.
   $fb_app_id = variable_get('culturefeed_search_ui_fb_app_id', '');
   if (!empty($fb_app_id)) {
-    $og_tags['fb:app_id'] = $fb_app_id; 
-  }  
-  $og_tags['og:site_name'] = variable_get('site_name', '');  
-  $og_tags['og:url'] = url($variables['url'], array('absolute' => TRUE)); 
+    $og_tags['fb:app_id'] = $fb_app_id;
+  }
+  $og_tags['og:site_name'] = variable_get('site_name', '');
+  $og_tags['og:url'] = url($variables['url'], array('absolute' => TRUE));
   $og_tags['og:description'] = implode(' - ', $description_parts);
   if ($variables['main_picture']) {
     $colonpos = strpos($variables['main_picture'], ':');
@@ -1151,7 +1158,7 @@ function _culturefeed_agenda_preprocess_actor_page_metatags($variables) {
     $path = drupal_get_path('module', 'culturefeed_agenda');
     $og_tags['og:image'] = url($path . '/images/no-thumbnail.png', array('absolute' => TRUE));
   }
-  
+
   foreach ($og_tags as $property => $content) {
     drupal_add_html_head(array(
       '#tag' => 'meta',
