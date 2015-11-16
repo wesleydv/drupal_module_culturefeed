@@ -409,15 +409,17 @@ function culturefeed_search_ui_preprocess_culturefeed_search_facet_item(&$variab
 
   // Create array with facet_keys that should support multiple select/unselect.
   // Don't add 'agefrom as this is not handled as a facet.
-  $multiple_facet_keys = array(
-    'category_eventtype_id',
-    'category_theme_id',
-    'location_category_facility_id',
+  $unsupported_multiple_facet_keys = array(
+    'datetype',
+    'agefrom',
+    'flandersregion',
+    'flanderstouristregion',
+    'workingregion',
   );
 
   // Every filter will reset the current facet item.
   // Remove this facet item from URL, URL will function as removal URL.
-  if (in_array($facet_key, $multiple_facet_keys)) {
+  if (!in_array($facet_key, $unsupported_multiple_facet_keys)) {
     foreach ($query['facet'] as $facet_id => $facet) {
       foreach ($facet as $item_id => $item) {
         if ($facet_item->getValue() == $item) {
