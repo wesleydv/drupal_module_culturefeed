@@ -114,7 +114,7 @@ function culturefeed_calendar_add_cookie_to_calendar() {
       $activity->nodeId = $cookie_activity->nodeId;
       $activity->nodeTitle = culturefeed_search_item_load($activity->nodeId, 'event')->getTitle(culturefeed_search_get_preferred_language());
       $activity->userId = $user_id;
-
+      $activity->priority = CultureFeed_Activity::PRIORITY_SEPARATE_IMMEDIATELY;
       DrupalCultureFeed::createActivity($activity);
 
       $added++;
@@ -238,6 +238,7 @@ function culturefeed_calendar_add_to_calendar(CultuurNet\Search\ActivityStatsExt
  */
 function culturefeed_calendar_edit_calendar_event($activity, $request_type = 'ajax') {
 
+  $activity->priority = CultureFeed_Activity::PRIORITY_SEPARATE_IMMEDIATELY;
   $event = culturefeed_agenda_event_load($activity->nodeId);
 
   $params = _culturefeed_calendar_get_event_params($event);
@@ -521,8 +522,7 @@ function culturefeed_calendar_edit_calendar_event_form_submit($form, &$form_stat
   $success = TRUE;
   if (!is_numeric($activity->id) != 0) {
     try {
-
-      DrupalCultureFeed::deleteActivity($activity->id);
+      DrupalCultureFeed::deleteActivity($activity->id, $activity->priority);
 
       $selection = new stdClass();
       $selection->calendar_date = strtotime($date);
@@ -530,7 +530,6 @@ function culturefeed_calendar_edit_calendar_event_form_submit($form, &$form_stat
       $new_activity = $activity;
       $new_activity->value = json_encode($selection);
       $new_activity->type = CultureFeed_Activity::TYPE_IK_GA;
-
       DrupalCultureFeed::createActivity($new_activity);
 
       // Add a timeout of 5 second, this gives index the time to place the new activity into the search index.
@@ -561,6 +560,7 @@ function culturefeed_calendar_edit_calendar_event_form_submit($form, &$form_stat
  */
 function culturefeed_calendar_delete_calendar_event($activity, $request_type = 'ajax') {
 
+  $activity->priority = CultureFeed_Activity::PRIORITY_SEPARATE_IMMEDIATELY;
   $event = culturefeed_agenda_event_load($activity->nodeId);
   $params = _culturefeed_calendar_get_event_params($event);
   $params['title'] = t('Remove event');
@@ -655,7 +655,7 @@ function culturefeed_calendar_delete_form_submit($form, &$form_state) {
   $success = TRUE;
   if (!is_numeric($activity->id) != 0) {
     try {
-      DrupalCultureFeed::deleteActivity($activity->id);
+      DrupalCultureFeed::deleteActivity($activity->id, $activity->priority);
     }
     catch (Exception $e) {
       $success = FALSE;

@@ -136,13 +136,13 @@ class DrupalCultureFeed extends DrupalCultureFeedBase {
     return self::getLoggedInUserInstance()->updateActivity($id, $private);
   }
 
-  public static function deleteActivity($id) {
-    $result = self::getLoggedInUserInstance()->deleteActivity($id);
+  public static function deleteActivity($id, $priority = CultureFeed_Activity::PRIORITY_NORMAL) {
+    $result = self::getLoggedInUserInstance()->deleteActivity($id, $priority);
     module_invoke_all('culturefeed_social_activity_deleted', $result);
     return $result;
   }
 
-  public static function deleteActivities($user_id, $node_id, $content_type, $activity_type) {
+  public static function deleteActivities($user_id, $node_id, $content_type, $activity_type, $priority = CultureFeed_Activity::PRIORITY_NORMAL) {
     $query = new CultureFeed_SearchActivitiesQuery();
     $query->type = $activity_type;
     $query->contentType = $content_type;
@@ -158,7 +158,8 @@ class DrupalCultureFeed extends DrupalCultureFeedBase {
 
     $result = array();
     foreach ($activities->objects as $activity) {
-      $result[] = self::deleteActivity($activity->id);
+      $activity->priority = $priority;
+      $result[] = self::deleteActivity($activity->id, $activity->priority);
     }
     return $result;
   }

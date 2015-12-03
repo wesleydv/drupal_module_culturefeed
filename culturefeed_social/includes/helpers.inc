@@ -254,7 +254,7 @@ function _culturefeed_social_do($activity_type, $type, $id) {
       $activity->nodeTitle = $object->getEntity()->getDetails()->getDetailByLanguage(culturefeed_search_get_preferred_language())->getTitle();
       $activity->nodeId = $id;
       $activity->path = culturefeed_search_detail_path($object->getType(), $id, $activity->nodeTitle);
-
+      $activity->priority = CultureFeed_Activity::PRIORITY_SEPARATE_IMMEDIATELY;
       break;
 
     case $activity::CONTENT_TYPE_ACTIVITY:
@@ -320,8 +320,19 @@ function _culturefeed_social_undo($activity_type, $type, $node_id) {
 
   $user_id = DrupalCultureFeed::getLoggedInUserId();
 
+  switch ($type) {
+    // Normal Cdb items.
+    case CultureFeed_Activity::CONTENT_TYPE_ACTOR:
+    case CultureFeed_Activity::CONTENT_TYPE_EVENT:
+    case CultureFeed_Activity::CONTENT_TYPE_PRODUCTION:
+      $priority = CultureFeed_Activity::PRIORITY_SEPARATE_IMMEDIATELY;
+      break;
+    default:
+      $priority = CultureFeed_Activity::PRIORITY_NORMAL;
+  }
+
   try {
-    return DrupalCultureFeed::deleteActivities($user_id, $node_id, $type, $activity_type);
+    return DrupalCultureFeed::deleteActivities($user_id, $node_id, $type, $activity_type, $priority);
   }
   catch (Exception $e) {
     watchdog_exception('culturefeed_social', $e);

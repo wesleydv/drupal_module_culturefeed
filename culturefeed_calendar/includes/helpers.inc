@@ -288,6 +288,7 @@ function culturefeed_calendar_add_activity($node_id, $node_title, $date) {
     $activity->nodeId = $node_id;
     $activity->nodeTitle = $node_title;
     $activity->userId = DrupalCultureFeed::getLoggedInUserId();
+    $activity->priority = CultureFeed_Activity::PRIORITY_SEPARATE_IMMEDIATELY;
 
     DrupalCultureFeed::createActivity($activity);
   }
