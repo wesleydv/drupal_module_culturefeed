@@ -106,7 +106,7 @@ function culturefeed_uitpas_init() {
 
     $uitpas_user = culturefeed_uitpas_get_uitpas_user();
 
-    if ($uitpas_user->user && !$uitpas_user->passholder) {
+    if ($uitpas_user->user && !culturefeed_uitpas_is_passholder()) {
       $message = t('You have successfully logged in, but you did not register your UiTPAS yet. Fill in the <a href="@register_url">necessary information</a> to consult your benefits and points balance. <a href="@toggle_url">Do not show this message again</a>.');
       $args = array(
         '@register_url' => url('register_uitpas'),
