@@ -186,3 +186,42 @@ function culturefeed_uitpas_is_passholder() {
 
   return NULL !== $uitpas_user->passholder;
 }
+
+/**
+ * Check if the email is a UiTPAS passholder.
+ *
+ * @param string $email
+ *   Email of user
+ *
+ * @return bool
+ *   Boolean.
+ */
+function culturefeed_uitpas_email_is_passholder($email) {
+
+    $uitpas_user = new stdClass();
+    $uitpas_user->user = NULL;
+  
+    try {
+  
+      if (DrupalCultureFeed::isCultureFeedUser()) {
+        $uitpas_user->user = DrupalCultureFeed::getLoggedInUser();
+        $uitpas_user->cf = DrupalCultureFeed::getLoggedInUserInstance();
+  
+        if ($uitpas_user->user) {
+          $query = new CultureFeed_Uitpas_Passholder_Query_SearchPassholdersOptions();
+          $query->email = $email;
+          $passholders = $uitpas_user->cf->uitpas()->searchPassholders($query);
+          
+          echo '<pre>';print_r($passholders);echo '</pre>';
+          
+          if ($passholders->total > 0) {
+            return true;
+          }
+        }
+      }
+    }
+    catch (Exception $e) {
+      watchdog_exception('culturefeed_uitpas_email_is_passholder', $e);
+    }
+}
+
