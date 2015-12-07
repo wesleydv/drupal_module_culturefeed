@@ -211,9 +211,6 @@ function culturefeed_uitpas_email_is_passholder($email) {
           $query = new CultureFeed_Uitpas_Passholder_Query_SearchPassholdersOptions();
           $query->email = $email;
           $passholders = $uitpas_user->cf->uitpas()->searchPassholders($query);
-          
-          echo '<pre>';print_r($passholders);echo '</pre>';
-          
           if ($passholders->total > 0) {
             return true;
           }
