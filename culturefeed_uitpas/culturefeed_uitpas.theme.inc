@@ -53,6 +53,16 @@ function culturefeed_uitpas_theme() {
         'promotions_default_render' => '',
       ),
     ),
+    'culturefeed_uitpas_event_price_classes' => array(
+      'variables' => array(
+        'price_classes' => array(),
+        'price_classes_array' => array(),
+        'price_classes_default_render' => '',
+      ),
+      'path' => drupal_get_path('module', 'culturefeed_uitpas') . '/theme',
+      'file' => 'theme.inc',
+      'template' => 'culturefeed-uitpas-event-price-classes',
+    ),
     'culturefeed_uitpas_profile_section' => array(
       'path' => drupal_get_path('module', 'culturefeed_uitpas') . '/theme',
       'template' => 'culturefeed-uitpas-profile-section',
@@ -204,42 +214,31 @@ function culturefeed_uitpas_preprocess_culturefeed_actor(&$vars) {
 function culturefeed_uitpas_preprocess_culturefeed_event(&$vars) {
 
   $event = culturefeed_uitpas_get_uitpas_event($vars['item']);
-  if (isset($vars['price'])) {
-    $price = $vars['price'];
-  }
 
   if ($event) {
 
-    $prices = array();
 
-    if (isset($price)) {
-      $prices[] = $price;
-    }
-
+    // Standard user (no UiTPAS).
+    $price_classes = array();
+    $price_classes_array = array();
     foreach ($event->cardSystems as $card_system) {
       foreach ($card_system->distributionKeys as $key) {
-        foreach ($key->conditions as $condition) {
-
-          if ($condition->definition == $condition::DEFINITION_KANSARM && $key->tariff > 0) {
-
-            if ($condition->value == $condition::VALUE_MY_CARDSYSTEM) {
-              $prices[] = t('Opportunities tariff with @system: !tariff', array('@system' => culturefeed_uitpas_cardsystem_name($card_system), '!tariff' => $key->tariff));
-            }
-
-            if ($condition->value == $condition::VALUE_AT_LEAST_ONE_CARDSYSTEM) {
-              $prices[] = t('Opportunities tariff for pass holders from another region: !tariff', array('!tariff' => $key->tariff));
-            }
-
-          }
-
+        foreach ($key->priceClasses as $priceClass) {
+          $price_classes[] = $priceClass;
+          $price_classes_array[] = array(
+            'name' => $priceClass->name,
+            'price' => number_format($priceClass->price, 2, ',', '.'),
+          );
         }
-
       }
 
     }
 
-    if (count($prices)) {
-      $vars['price'] = '<p>' . implode('</p><p>', array_unique($prices)) . '</p>';
+    if (count($price_classes)) {
+      $vars['price_description'] = theme('culturefeed_uitpas_event_price_classes', array(
+        'price_classes' => $price_classes,
+        'price_classes_array' => $price_classes_array,
+      ));
     }
 
     // Promotions.
@@ -275,4 +274,23 @@ function culturefeed_uitpas_preprocess_culturefeed_uitpas_filter_labels(&$variab
     $variables['element']['#children'] .= $rendered_child;
   }
   $variables['#attributes'] = $attributes;
+}
+
+function culturefeed_uitpas_preprocess_culturefeed_uitpas_event_price_classes(&$vars) {
+
+  $table = array(
+    '#theme' => 'table',
+    '#rows' => array(),
+  );
+
+  foreach ($vars['price_classes_array'] as $price_class) {
+
+    $table['#rows'][] = array(
+      $price_class['name'],
+      $price_class['price'],
+    );
+
+  }
+  $vars['price_classes_default_render'] = drupal_render($table);
+
 }
