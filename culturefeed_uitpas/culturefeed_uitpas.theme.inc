@@ -58,10 +58,29 @@ function culturefeed_uitpas_theme() {
         'price_classes' => array(),
         'price_classes_array' => array(),
         'price_classes_default_render' => '',
+        'reduced' => FALSE,
       ),
       'path' => drupal_get_path('module', 'culturefeed_uitpas') . '/theme',
       'file' => 'theme.inc',
       'template' => 'culturefeed-uitpas-event-price-classes',
+    ),
+    'culturefeed_uitpas_event_uitpas_prices' => array(
+      'variables' => array(
+        'distribution_keys' => array(),
+      ),
+      'path' => drupal_get_path('module', 'culturefeed_uitpas') . '/theme',
+      'file' => 'theme.inc',
+      'template' => 'culturefeed-uitpas-event-uitpas-prices',
+    ),
+    'culturefeed_uitpas_event_uitpas_price' => array(
+      'variables' => array(
+        'name' => '',
+        'reduced_price' => array(),
+        'price_classes' => array(),
+      ),
+      'path' => drupal_get_path('module', 'culturefeed_uitpas') . '/theme',
+      'file' => 'theme.inc',
+      'template' => 'culturefeed-uitpas-event-uitpas-price',
     ),
     'culturefeed_uitpas_profile_section' => array(
       'path' => drupal_get_path('module', 'culturefeed_uitpas') . '/theme',
@@ -217,28 +236,16 @@ function culturefeed_uitpas_preprocess_culturefeed_event(&$vars) {
 
   if ($event) {
 
+    // Price info.
+    module_load_include('inc', 'culturefeed_uitpas', 'includes/event_price_info');
+    $price_info = culturefeed_uitpas_get_price_info($event);
 
-    // Standard user (no UiTPAS).
-    $price_classes = array();
-    $price_classes_array = array();
-    foreach ($event->cardSystems as $card_system) {
-      foreach ($card_system->distributionKeys as $key) {
-        foreach ($key->priceClasses as $priceClass) {
-          $price_classes[] = $priceClass;
-          $price_classes_array[] = array(
-            'name' => $priceClass->name,
-            'price' => number_format($priceClass->price, 2, ',', '.'),
-          );
-        }
-      }
-
+    if ($price_info['price_description']) {
+      $vars['price_description'] = $price_info['price_description'];
     }
 
-    if (count($price_classes)) {
-      $vars['price_description'] = theme('culturefeed_uitpas_event_price_classes', array(
-        'price_classes' => $price_classes,
-        'price_classes_array' => $price_classes_array,
-      ));
+    if ($price_info['uitpas_prices']) {
+      $vars['uitpas_prices'] = $price_info['uitpas_prices'];
     }
 
     // Promotions.
@@ -287,7 +294,7 @@ function culturefeed_uitpas_preprocess_culturefeed_uitpas_event_price_classes(&$
 
     $table['#rows'][] = array(
       $price_class['name'],
-      $price_class['price'],
+      ($vars['reduced']) ? $price_class['reduced_price'] : $price_class['price'],
     );
 
   }
