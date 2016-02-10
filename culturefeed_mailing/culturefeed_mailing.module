@@ -57,13 +57,6 @@ function culturefeed_mailing_menu() {
     'file' => 'culturefeed_mailing.pages.inc',
   );
 
-  $items['subscribe/already-subscribed'] = array(
-    'title' => 'Already subscribed to our newsletter',
-    'page callback' => 'culturefeed_mailing_user_already_subscribed',
-    'access arguments' => array('subscribe to mailings'),
-    'file' => 'culturefeed_mailing.pages.inc',
-  );
-
   $items['culturefeed/mailing'] = array(
     'title' => 'Newsletters',
     'page callback' => 'culturefeed_mailing_page_my_newsletters',
@@ -295,11 +288,6 @@ function culturefeed_mailing_theme() {
       'template' => 'culturefeed-mailing-content-block-subscribed',
       'path' => $path,
     ),
-    'culturefeed_mailing_content_block_already_subscribed' => array(
-      'variables' => array('title' => NULL, 'message' => NULL, 'unsubscribe_link' => NULL),
-      'template' => 'culturefeed-mailing-content-block-already-subscribed',
-      'path' => $path,
-    ),
   );
 }
 
@@ -528,7 +516,10 @@ function culturefeed_mailing_newsletter_block_form_submit($form, &$form_state) {
 
       // If user was already subscribed, goto already subscribed page.
       if ($e->error_code == CultureFeed::CODE_MAILING_ALREADY_SUBSCRIBED) {
-        drupal_goto('subscribe/already-subscribed');
+        $message = variable_get('culturefeed_mailing_already_subscribed_message', t('You are already subscribed to our newsletter'));
+        $unsubscribe_link = l(t('Unsubscribe'), 'culturefeed/mailing');
+        drupal_set_message(t($message) . '<br>' . $unsubscribe_link, 'warning');
+        return;
       }
       else {
         drupal_set_message(t('An error occurred while subscribing, please try again later.'), 'error');
@@ -540,10 +531,6 @@ function culturefeed_mailing_newsletter_block_form_submit($form, &$form_state) {
       drupal_set_message(t('An error occurred while subscribing, please try again later.'), 'error');
       return;
     }
-
-    $form_state['subscribed'] = TRUE;
-    $form_state['redirect'] = 'subscribe/subscribed';
-
   }
   elseif (DrupalCultureFeed::isCultureFeedUser()) {
     $form_state['redirect'] = array('subscribe', array('query' => $query));

@@ -203,9 +203,12 @@ function culturefeed_mailing_subscribe_form_submit($form, &$form_state) {
     }
     catch (CultureFeed_Exception $e) {
 
-      // If user was already subscribed, goto already subscribed page.
+      // If user was already subscribed, show already subscribed message.
       if ($e->error_code == CultureFeed::CODE_MAILING_ALREADY_SUBSCRIBED) {
-        drupal_goto('subscribe/already-subscribed');
+        $message = variable_get('culturefeed_mailing_already_subscribed_message', t('You are already subscribed to our newsletter'));
+        $unsubscribe_link = l(t('Unsubscribe'), 'culturefeed/mailing');
+        drupal_set_message(t($message) . '<br>' . $unsubscribe_link, 'warning');
+        return;
       }
       else {
         drupal_set_message(t('An error occurred while subscribing, please try again later.'), 'error');
@@ -228,9 +231,12 @@ function culturefeed_mailing_subscribe_form_submit($form, &$form_state) {
     }
     catch (CultureFeed_Exception $e) {
 
-      // If user was already subscribed, goto already subscribed page.
+      // If user was already subscribed, show already subscribed message.
       if ($e->error_code == CultureFeed::CODE_MAILING_ALREADY_SUBSCRIBED) {
-        drupal_goto('subscribe/already-subscribed');
+        $message = variable_get('culturefeed_mailing_already_subscribed_message', t('You are already subscribed to our newsletter'));
+        $unsubscribe_link = l(t('Unsubscribe'), 'culturefeed/mailing');
+        drupal_set_message(t($message) . '<br>' . $unsubscribe_link, 'warning');
+        return;
       }
       else {
         drupal_set_message(t('An error occurred while subscribing, please try again later.'), 'error');
@@ -292,13 +298,6 @@ function culturefeed_mailing_user_subscribed() {
 
   return variable_get('culturefeed_mailing_subscribed_message', t('You have successfully subscribed to our newsletter'));
 
-}
-
-/**
- * Page callback: Show a message page that the user is already subscribed.
- */
-function culturefeed_mailing_user_already_subscribed() {
-  return theme('culturefeed_mailing_content_block_already_subscribed', array());
 }
 
 /**
