@@ -85,7 +85,7 @@ function culturefeed_search_item_load($cdb_id, $type = '', $watchdog = TRUE) {
  * @return mixed
  *   FALSE if not found, otherwise CultuurNet\Search\ActivityStatsExtendedEntity
  */
-function culturefeed_search_item_load_by_title($title, $type) {
+function culturefeed_search_item_load_by_title($title) {
 
   $search_string = trim($title);
   $parameters = array();
@@ -1026,4 +1026,10 @@ function culturefeed_search_set_noindex_metatag() {
 
   drupal_add_html_head($element, 'robots');
 
+}
+
+function culturefeed_search_get_city_by_zipcode($zip) {
+  $city = db_query('SELECT name FROM {culturefeed_search_cities} WHERE zip = :zip', array(':zip' => $zip))->fetchField();
+
+  return $city;
 }
